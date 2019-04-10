@@ -1,0 +1,25 @@
+version: "3.1"
+services:
+  db: # main database container
+    image: mariadb
+    restart: always
+    container_name: "hotel_database"
+    volumes:
+      - ./server/scripts:/home/
+    environment:
+      MYSQL_ROOT_PASSWORD: BDYgS4H4ZMHUKzRnw7GBbnH6p
+      MYSQL_DATABASE: testing
+      MYSQL_USER: testing
+      MYSQL_PASSWORD: testing
+    ports:
+      - "3306:3306"
+  phpmyadmin: # access the phpmyadmin service on port 8080
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    container_name: "hotel_myadmin"
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: hotel_database
+    depends_on:
+      - db
