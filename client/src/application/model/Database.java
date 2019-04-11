@@ -11,6 +11,9 @@ import java.sql.Statement;
 
 import javax.xml.bind.DatatypeConverter;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Database {
 	
 	private static Database _instance = null;
@@ -71,7 +74,86 @@ public class Database {
 		
 		return pass;
 	}
+	
+	public ObservableList<Client> allClients() {
 		
+		ObservableList<Client> clients = FXCollections.observableArrayList();
+		try {
+			Statement query = this.connection.createStatement();
+			ResultSet results = query.executeQuery("SELECT * FROM clientes;");
+			if(results.next()) {
+				clients.add(new Client(results.getInt("id"), results.getString("username"), "***", results.getString("email"), results.getString("access_type")));
+			}else {
+				this.error = "No clients found....";
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			this.error = "Error found during the sql statement...";
+			System.out.println("Error: " + this.error);
+		}
+		
+		return clients;
+		
+	}
+	
+	public void updateClient(
+			String id,
+			String username,
+			String password,
+			String email,
+			String access_type
+	) {
+		
+		String query = "UPDATE clientes SET username = '" + username + "', email = '" + email + "', access_type = '" + access_type + "'";
+		if(!password.equals("***")) {
+			String pass = this.getHashedPassword(password);
+			query += ", password = '" + pass + "'";
+		}
+		query += " WHERE id like '" + id + "';";
+		
+		try {
+			Statement stmt = this.connection.createStatement();
+			int results = stmt.executeUpdate(query);
+			
+			if(results > 0) {
+				System.out.println("User updated successfully....");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			this.error = "Error found during the sql statement...";
+			System.out.println("Error: " + this.error);
+		}
+		
+	}
+	
+	public void insertClient(
+			String username,
+			String password,
+			String email
+	) {
+		
+		String pass = this.getHashedPassword(password);
+		String query = "INSERT INTO clientes (username, password, email, access_type) VALUES ('" + username + "', '" + pass + "', '" + email + "', 'receptionist');";
+		
+		try {
+			Statement stmt = this.connection.createStatement();
+			int results = stmt.executeUpdate(query);
+			
+			if(results > 0) {
+				System.out.println("User inserted successfully....");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			this.error = "Error found during the sql statement...";
+			System.out.println("Error: " + this.error);
+		}
+		
+	}
+	
 	public String getError() {
 		return this.error;
 	}
