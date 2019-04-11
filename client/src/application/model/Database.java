@@ -1,10 +1,15 @@
 package application.model;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.xml.bind.DatatypeConverter;
 
 public class Database {
 	
@@ -47,6 +52,26 @@ public class Database {
 		return userFound;
 	}
 	
+	public String getHashedPassword(String plainText) {
+		String pass = "";
+		
+		try {
+			MessageDigest md5Password = MessageDigest.getInstance("MD5");
+			md5Password.reset();
+			md5Password.update(plainText.getBytes("UTF-8"));
+			byte[] result = md5Password.digest();
+			pass = DatatypeConverter.printHexBinary(result).toLowerCase();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return pass;
+	}
+		
 	public String getError() {
 		return this.error;
 	}
