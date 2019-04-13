@@ -1,104 +1,213 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.*?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LoginController">
    <children>
-      <SplitPane dividerPositions="0.5" layoutX="194.0" layoutY="61.0" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+      <ImageView blendMode="EXCLUSION" fitHeight="593.0" fitWidth="1048.0" layoutX="-13.0" layoutY="-11.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/loginBG.jpg" />
+         </image>
+         <effect>
+            <GaussianBlur radius="40.38" />
+         </effect>
+      </ImageView>
+      <AnchorPane layoutX="511.0" layoutY="5.0" prefHeight="570.0" prefWidth="514.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <VBox fx:id="signinForm" layoutX="115.0" layoutY="76.0" prefHeight="400.0" prefWidth="350.0" style="-fx-background-color: rgba(44, 62, 80,.6); -fx-background-radius: 0;" translateY="500.0" AnchorPane.rightAnchor="50.0">
                <children>
-                  <VBox layoutX="98.0" layoutY="56.0" prefHeight="298.0" prefWidth="296.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <HBox prefHeight="100.0">
-                           <children>
-                              <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="LOGIN" HBox.hgrow="ALWAYS">
-                                 <font>
-                                    <Font name="System Bold" size="30.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <Label fx:id="errors" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                       <padding>
-                                          <Insets bottom="5.0" top="5.0" />
-                                       </padding>
-                                    </Label>
-                                    <Label maxWidth="1.7976931348623157E308" text="Username:">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <TextField fx:id="username" text="username">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" top="5.0" />
-                                       </VBox.margin>
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" top="10.0" />
-                                       </padding>
-                                    </TextField>
-                                    <Label maxWidth="1.7976931348623157E308" text="Password:">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <PasswordField fx:id="password" text="password">
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" top="10.0" />
-                                       </padding>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </PasswordField>
-                                    <Button fx:id="login" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loginMethod" text="Login">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" top="5.0" />
-                                       </VBox.margin>
-                                       <padding>
-                                          <Insets bottom="10.0" top="10.0" />
-                                       </padding>
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </Button>
-                                 </children>
-                                 <HBox.margin>
-                                    <Insets left="20.0" right="20.0" />
-                                 </HBox.margin>
-                              </VBox>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="14.0" />
-                           </VBox.margin>
-                        </HBox>
-                     </children>
-                  </VBox>
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="SIGN IN" textFill="#efefef">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="siusername" focusColor="#efefef" labelFloat="true" promptText="Username" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#34495e">
+                     <VBox.margin>
+                        <Insets top="40.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXPasswordField fx:id="sipassword" focusColor="#efefef" labelFloat="true" promptText="Password" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#34495e">
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXPasswordField>
+                  <JFXCheckBox fx:id="siremember" checkedColor="#34495e" text="Rembember me" textFill="#efefef" unCheckedColor="#efefef">
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="10.0" top="20.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXCheckBox>
+                  <JFXButton fx:id="signinBtn" maxWidth="1.7976931348623157E308" ripplerFill="#efefef4f" style="-fx-background-color: rgba(44, 62, 80,.8); -fx-background-radius: 0;" text="Login" textFill="#efefef">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Hyperlink text="Forgot password" textFill="#efefef">
+                     <VBox.margin>
+                        <Insets left="10.0" top="15.0" />
+                     </VBox.margin>
+                  </Hyperlink>
                </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
-        </items>
-      </SplitPane>
+               <padding>
+                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+               </padding>
+            </VBox>
+            <VBox fx:id="signupForm" layoutX="122.0" layoutY="75.0" prefHeight="400.0" prefWidth="350.0" style="-fx-background-color: rgba(44, 62, 80,.6); -fx-background-radius: 0;">
+               <children>
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="SIGN UP" textFill="#efefef">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="suusername" focusColor="#efefef" labelFloat="true" promptText="Username" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#34495e">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="40.0" />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <JFXPasswordField fx:id="supassword" focusColor="#efefef" labelFloat="true" promptText="Password" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#34495e">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </JFXPasswordField>
+                  <JFXTextField fx:id="suemail" focusColor="#efefef" labelFloat="true" promptText="E-Mail" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#34495e">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <JFXButton fx:id="signupBtn" maxWidth="1.7976931348623157E308" ripplerFill="#efefef4f" style="-fx-background-color: rgba(44, 62, 80,.8); -fx-background-radius: 0;" text="¡Let me in!" textFill="#efefef">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="30.0" />
+                     </VBox.margin>
+                  </JFXButton>
+               </children>
+               <padding>
+                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+               </padding>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="570.0" prefWidth="514.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <VBox layoutX="50.0" layoutY="173.0" prefHeight="225.0" prefWidth="464.0" AnchorPane.leftAnchor="50.0">
+               <children>
+                  <Label maxWidth="1.7976931348623157E308" text="Welcome to Hotel" textFill="#efefef">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Line endX="333.0" startX="-100.0" stroke="#efefef">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Line>
+                  <Label fx:id="welcomeText" lineSpacing="4.0" prefHeight="80.0" prefWidth="434.0" text="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500." textAlignment="JUSTIFY" textFill="#efefef" wrapText="true">
+                     <padding>
+                        <Insets bottom="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="switchFormBtn" onAction="#switchForm" prefHeight="39.0" prefWidth="241.0" ripplerFill="#ededed4f" style="-fx-background-color: rgba(44, 62, 80,.8); -fx-background-radius: 0;" text="Sign up" textFill="#efefef">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+               <padding>
+                  <Insets bottom="30.0" right="30.0" top="30.0" />
+               </padding>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER_RIGHT" fillHeight="false" prefHeight="30.0" prefWidth="1024.0" style="-fx-background-color: rgba(44, 62, 80,0.6);" AnchorPane.bottomAnchor="570.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="minimizeWindowBtn" onMouseClicked="#minimizeWindow" text="_" textFill="#efefef">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </Label>
+            <Label fx:id="closeWindowBtn" onMouseClicked="#closeWindow" text="X" textFill="#efefef">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </Label>
+         </children></HBox>
    </children>
 </AnchorPane>
