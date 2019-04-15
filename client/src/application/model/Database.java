@@ -11,6 +11,7 @@ import java.sql.Statement;
 
 import javax.xml.bind.DatatypeConverter;
 
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,11 +20,16 @@ public class Database {
 	private static Database _instance = null;
 	private String error = "";
 	private Connection connection = null;
+	private HotelConfigProperties config = HotelConfigProperties.getInstance();
 	
 	private Database() {
-		
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost/testing", "testing", "testing");
+			String dbhost = config.getProperties().getProperty("dbhost");
+			String dbuser = config.getProperties().getProperty("dbuser");
+			String dbpassword = config.getProperties().getProperty("dbpassword");
+			String dbname = config.getProperties().getProperty("dbname");
+			
+			connection = DriverManager.getConnection("jdbc:mysql://" + dbhost + "/" + dbname, dbuser, dbpassword);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			this.error = "Could not connect to the database...";
@@ -41,7 +47,7 @@ public class Database {
 		boolean userFound = false;
 		try {
 			Statement query = this.connection.createStatement();
-			ResultSet results = query.executeQuery("SELECT * FROM clientes WHERE username like '" + username + "' AND password like '" + password + "';");
+			ResultSet results = query.executeQuery("SELECT * FROM clients WHERE username like '" + username + "' AND password like '" + password + "';");
 			if(results.next()) {
 				userFound = true;
 			}else {

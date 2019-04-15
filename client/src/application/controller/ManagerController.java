@@ -27,7 +27,6 @@ public class ManagerController {
 
     @FXML
     void showClients(ActionEvent event) {
-    	uff.switchScene((Stage) clients.getScene().getWindow(), "../view/Client.fxml");
     }
 
     @FXML

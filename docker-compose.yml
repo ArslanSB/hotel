@@ -5,7 +5,8 @@ services:
     restart: always
     container_name: "hotel_database"
     volumes:
-      - ./server/scripts:/home/
+      - "./server/scripts:/home/"
+      - "./server/dbdata/.:/var/lib/mysql/data/."
     environment:
       MYSQL_ROOT_PASSWORD: BDYgS4H4ZMHUKzRnw7GBbnH6p
       MYSQL_DATABASE: testing

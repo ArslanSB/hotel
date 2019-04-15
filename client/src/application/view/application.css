@@ -1,1 +1,23 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.topBarIcons{
+	
+	-fx-fill: "#efefef";
+	-fx-cursor: hand;
+}
+
+.topBarIcons:hover{
+	-fx-fill: "#000";
+}
+
+.managerButton{
+	-fx-background-color: transparent;
+	-fx-cursor: hand;
+	-fx-text-fill: #efefef;
+	-fx-background-radius: 0;
+}
+.managerButton:hover,
+.managerButton.active{
+	-fx-background-color: #efefef;
+	-fx-text-fill:  #2c3e50;
+}
