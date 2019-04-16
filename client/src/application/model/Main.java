@@ -1,5 +1,6 @@
 package application.model;
 	
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -15,6 +16,9 @@ public class Main extends Application {
 	public static Stage mainStage = null;
 	public static BorderPane dynamicScene = null;
 	public static Label stageTitle = null;
+	public static String alertMessage;
+	public static FontAwesomeIcon alertIcon;
+	public static String alertIconColor;
 	
 	@Override
 	public void start(Stage primaryStage) {

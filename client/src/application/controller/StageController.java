@@ -1,8 +1,12 @@
 package application.controller;
 
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 
+import application.model.Database;
+import application.model.HotelConfigProperties;
 import application.model.Main;
 import application.model.UsefullFunctions;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -18,6 +22,8 @@ public class StageController {
     private ResourceBundle resources;
 
     private UsefullFunctions uff = UsefullFunctions.getInstance();
+    private Database db = Database.getInstance();
+    private HotelConfigProperties config = HotelConfigProperties.getInstance();
     
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
@@ -67,11 +73,41 @@ public class StageController {
         
         Main.dynamicScene = dynamicScene;
         Main.stageTitle = topBorderTitle;
-        uff.changeScene("../view/Login.fxml", "Login");
+        if(checkIfUserShouldBeLoggedIn()) {
+        	uff.changeScene("../view/Manager.fxml", "Manager");
+        }else{
+        	uff.changeScene("../view/Login.fxml", "Login");
+        }
         
         makeWindowDragable();
 
     }
 
+    boolean checkIfUserShouldBeLoggedIn() {
+    	String configUser = config.getProperties().getProperty("user");
+    	String configId = config.getProperties().getProperty("id");
+    	String configExpire = config.getProperties().getProperty("expire");
+    	
+    	boolean loggedIn = false;
+    	
+    	if(!configUser.equalsIgnoreCase("") && configUser != null) {
+    		if(!configId.equalsIgnoreCase("") && configId != null) {
+    			if(!configExpire.equalsIgnoreCase("") && configExpire != null) {
+        			
+    				Date now = new Date();
+    				Calendar c = Calendar.getInstance();
+    				c.setTime(now);
+    				if(c.getTimeInMillis() < Long.parseLong(configExpire)) {
+    					if(db.checkUserByExpireDate(configUser, configId, configExpire)) {
+        					loggedIn = true;
+        				}
+    				}
+    				
+        		}
+    		}
+    	}
+    	
+    	return loggedIn;
+    }
     
 }

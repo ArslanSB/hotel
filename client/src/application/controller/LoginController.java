@@ -1,8 +1,8 @@
 package application.controller;
 
-import java.io.File;
 import java.net.URL;
 import javafx.util.Duration;
+
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -16,12 +16,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
+import javafx.scene.paint.Paint;
 import application.model.Database;
 import application.model.Main;
 import application.model.UsefullFunctions;
@@ -40,8 +39,7 @@ public class LoginController {
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
     
-    @FXML
-    private MediaView video;
+    
 
     @FXML
     private JFXButton switchFormBtn;
@@ -66,13 +64,14 @@ public class LoginController {
     	String username = siusername.getText();
     	String password = db.getHashedPassword(sipassword.getText());
     	
-    	boolean loginTrue = db.checkLogin(username, password);
+    	boolean loginTrue = db.checkLogin(username, password, siremember.isSelected());
     	if(loginTrue) {
     		System.out.println("User has been loged in successfully....");
     		uff.changeScene("../view/Manager.fxml", "Manager");
     	}else {
     		System.out.println("Please check your credencials....");
     	}
+    	
     }
     
     @FXML
@@ -84,11 +83,83 @@ public class LoginController {
     
     @FXML
     void signupOnEnter(KeyEvent event) {
-    	System.out.println(event.getCharacter());
+    	if(event.getCode().compareTo(KeyCode.ENTER) == 0) {
+    		// asd
+    	}
     }
     
     @FXML
     private VBox signupForm;
+    
+    @FXML
+    private VBox recoverForm;
+    @FXML
+    private JFXTextField recoverUser;
+    @FXML
+    private JFXTextField recoverCode = new JFXTextField();
+    @FXML
+    private JFXPasswordField newPassword = new JFXPasswordField();
+    
+    @FXML
+    void recoverMethod(ActionEvent event) {
+    	
+    	// recoverCode textfield
+    	recoverCode.setPadding(new Insets(10));
+    	recoverCode.prefWidth(250);
+    	recoverCode.setFocusColor(Paint.valueOf("#efefef"));
+    	recoverCode.setUnFocusColor(Paint.valueOf("#34495e"));
+    	recoverCode.setStyle("-fx-text-fill: #efefef");
+    	recoverCode.setPromptText("Recover Code");
+    	recoverCode.setLabelFloat(true);
+    	VBox.setMargin(recoverCode, new Insets(30, 0, 0, 0));
+    	
+    	// new password field
+    	newPassword.setPadding(new Insets(10));
+    	newPassword.prefWidth(250);
+    	newPassword.setFocusColor(Paint.valueOf("#efefef"));
+    	newPassword.setUnFocusColor(Paint.valueOf("#34495e"));
+    	newPassword.setStyle("-fx-text-fill: #efefef");
+    	newPassword.setPromptText("New Password");
+    	newPassword.setLabelFloat(true);
+    	VBox.setMargin(newPassword, new Insets(30, 0, 0, 0));
+    	
+    	
+    	if(!recoverUser.isDisable()) {
+    		 if(db.sendRecoveryCode(recoverUser.getText())) {
+            	recoverUser.setDisable(true);
+        		recoverForm.getChildren().add(2, recoverCode);
+        		recoverCode.setDisable(false);
+        		
+        		recoverCode.requestFocus();
+        	 }
+    	} else {
+    		if(!recoverCode.isDisable()) {
+    			if(db.checkRecoveryCode(recoverUser.getText(), recoverCode.getText())) {
+        			recoverCode.setDisable(true);
+        			recoverForm.getChildren().add(3, newPassword);
+        			newPassword.requestFocus();
+        		} 
+    		} else {
+    			if(db.updateUserPassword(recoverUser.getText(), newPassword.getText())) {
+    				translateAnimationForm(signinForm, recoverForm, Duration.millis(500), Duration.millis(500));
+    			}
+    			
+    		}
+    		   		
+    	}
+    }
+    
+    @FXML
+    void backToSingInMethod(ActionEvent event) {
+    	
+    	translateAnimationForm(signinForm, recoverForm, Duration.millis(500), Duration.millis(500));
+    	
+    }
+    
+    @FXML
+    void showRecoverForm() {
+    	translateAnimationForm(recoverForm, signinForm, Duration.millis(500), Duration.millis(500));
+    }
     
     @FXML
     private Label closeWindowBtn;
@@ -108,10 +179,7 @@ public class LoginController {
     
     @FXML
     void switchForm(ActionEvent event) {
-    	
-    	UsefullFunctions uff = UsefullFunctions.getInstance();
-    	uff.showAlerts("CLOSE", "FOUND AN ERROR:....");
-    	
+    	    	
     	String btnValue = switchFormBtn.getText();
     	
     	switch (btnValue) {
@@ -135,22 +203,11 @@ public class LoginController {
     
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        
-//    	Set video as the login background
-//    	Look for good short videos
-//    	
-//    	String path = new File("src/application/resources/video.mp4").getAbsolutePath();
-//    	Media me = new Media(new File(path).toURI().toString());
-//    	MediaPlayer md = new MediaPlayer(me);
-//    	
-//    	video.setMediaPlayer(md);
-//    	md.setAutoPlay(true);
-    	
-        signinForm.setTranslateY(500);
+    	signinForm.setTranslateY(500);
         signupForm.setTranslateY(500);
-        
+        recoverForm.setTranslateY(500);
+                
         translateAnimationForm(signinForm, Duration.millis(500), Duration.millis(500));
-               
     }
     
     void translateAnimationForm(VBox in, VBox out, Duration duration, Duration delayIn) {

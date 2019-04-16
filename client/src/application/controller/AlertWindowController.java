@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import application.model.Main;
 import application.model.UsefullFunctions;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -25,6 +26,12 @@ public class AlertWindowController {
     private FontAwesomeIconView closeStageBtn; // Value injected by FXMLLoader
     
     @FXML
+    private FontAwesomeIconView alertIcon;
+    
+    @FXML
+    private Label message;
+    
+    @FXML
     void closeStage(MouseEvent event) {
     	((Stage) closeStageBtn.getScene().getWindow()).close();
     }
@@ -32,6 +39,10 @@ public class AlertWindowController {
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert closeStageBtn != null : "fx:id=\"closeStageBtn\" was not injected: check your FXML file 'Stage.fxml'.";
+        alertIcon.setIcon(Main.alertIcon);
+        alertIcon.setGlyphStyle("-fx-fill: " + Main.alertIconColor + ";");
+        message.setText(Main.alertMessage);
+        
     }
 
     
