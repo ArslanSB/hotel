@@ -15,6 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class AlertWindowController {
+	
+	private UsefullFunctions uff = UsefullFunctions.getInstance();
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -33,7 +35,7 @@ public class AlertWindowController {
     
     @FXML
     void closeStage(MouseEvent event) {
-    	((Stage) closeStageBtn.getScene().getWindow()).close();
+    	uff.stackAlerts(((Stage) closeStageBtn.getScene().getWindow()));
     }
   
     @FXML // This method is called by the FXMLLoader when initialization is complete

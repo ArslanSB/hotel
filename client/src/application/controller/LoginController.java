@@ -59,9 +59,7 @@ public class LoginController {
     
     @FXML
     void signmein(ActionEvent event) {
-
-        uff.showAlerts(FontAwesomeIcon.CHECK, "Checking alertboxes", "ok");
-    	// login();   	
+    	login();   	
     }
     
     void login() {
@@ -132,8 +130,7 @@ public class LoginController {
     private JFXPasswordField newPassword = new JFXPasswordField();
     
     @FXML
-    void recoverMethod(ActionEvent event) {
-    	
+    void recoverMethod(ActionEvent event) {    	
     	// recoverCode textfield
     	recoverCode.setPadding(new Insets(10));
     	recoverCode.prefWidth(250);

@@ -39,7 +39,8 @@ public class Database {
 	}
 	
 	public static Database getInstance() {
-		return (Database._instance == null) ? new Database() : Database._instance;
+		Database._instance = (Database._instance == null) ? new Database() : Database._instance;
+		return Database._instance;
 	}
 	
 	public boolean checkLogin(String username, String password, boolean rememberme) {

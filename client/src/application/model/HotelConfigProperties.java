@@ -40,7 +40,8 @@ public class HotelConfigProperties {
 	}
 	
 	public static HotelConfigProperties getInstance() {
-		return (HotelConfigProperties._instance == null) ? new HotelConfigProperties() : HotelConfigProperties._instance;
+		HotelConfigProperties._instance = (HotelConfigProperties._instance == null) ? new HotelConfigProperties() : HotelConfigProperties._instance;
+		return HotelConfigProperties._instance;
 	}
 	
 	public Properties getProperties() {

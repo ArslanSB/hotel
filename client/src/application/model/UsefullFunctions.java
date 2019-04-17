@@ -18,20 +18,20 @@ public class UsefullFunctions {
 
 	private static UsefullFunctions _instance = null;
 	private HotelConfigProperties config = HotelConfigProperties.getInstance();
-	private static ArrayList<Stage> alertBoxes = new ArrayList<Stage>();
+	private ArrayList<Stage> alertBoxes = new ArrayList<Stage>();
+	private Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 	
 	private UsefullFunctions() {
 		
 	}
 	
 	public static UsefullFunctions getInstance() {
-		return (UsefullFunctions._instance == null) ? new UsefullFunctions() : UsefullFunctions._instance;
+		UsefullFunctions._instance = (UsefullFunctions._instance == null) ? new UsefullFunctions() : UsefullFunctions._instance;
+		return UsefullFunctions._instance;
 	}
 	
 	public void showAlerts( FontAwesomeIcon icon, String message, String alertIconColor ) {
     	try {
-    		
-    		Rectangle2D screenBounds = Screen.getPrimary().getBounds();
     		
     		switch (alertIconColor) {
 			case "Error":
@@ -66,7 +66,7 @@ public class UsefullFunctions {
 			stage.initStyle(StageStyle.UNDECORATED);
 			
 			int totalAlerts = alertBoxes.size() - 1;
-			
+					
 			stage.setY((screenBounds.getHeight() - 150)  - totalAlerts * 110);
 			stage.setX(screenBounds.getWidth() - 420);
 			stage.setScene(scene);
@@ -74,13 +74,8 @@ public class UsefullFunctions {
 			
 			PauseTransition close = new PauseTransition(Duration.seconds(Integer.parseInt(config.getProperties().getProperty("alert.box.hide.time"))));
 			close.setOnFinished(e -> {
-				alertBoxes.remove(stage);
-				hideStage.close();
-				stage.close();
-
-				for(int i = 0; i < alertBoxes.size(); i++) {
-					alertBoxes.get(i).setY((screenBounds.getHeight() - 150)  - i * 110);
-				}
+				hideStage.close();				
+				stackAlerts(stage);
 			});
 			
 			hideStage.show();
@@ -102,4 +97,13 @@ public class UsefullFunctions {
         	e.printStackTrace();
         }
 	}
+	
+	public void stackAlerts(Stage stage) {
+		alertBoxes.remove(stage);
+		stage.close();
+		for(int i = 0; i < alertBoxes.size(); i++) {
+			alertBoxes.get(i).setY((screenBounds.getHeight() - 150)  - i * 110);
+		}
+	}
+	
 }

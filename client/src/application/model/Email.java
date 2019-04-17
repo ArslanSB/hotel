@@ -41,7 +41,8 @@ public class Email {
 	}
 	
 	public static Email getInstance() {
-		return (Email._instance == null) ? new Email() : Email._instance;
+		Email._instance = (Email._instance == null) ? new Email() : Email._instance;
+		return Email._instance;
 	}
 	
 	public boolean sendEmail( String email, String sub, String msg ) {
