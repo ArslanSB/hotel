@@ -15,69 +15,94 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 
 <AnchorPane prefHeight="570.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ManagerController">
    <children>
-      <BorderPane layoutX="412.0" layoutY="185.0" prefHeight="570.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane layoutX="412.0" layoutY="185.0" prefHeight="570.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" fx:id="mainScene">
          <left>
-            <VBox prefHeight="200.0" prefWidth="224.0" style="-fx-background-color: #2c3e50;" BorderPane.alignment="CENTER">
+            <AnchorPane style="-fx-background-color: #2c3e50;">
                <children>
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="MANAGER" textFill="#efefef">
-                     <VBox.margin>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font size="22.0" />
-                     </font>
-                  </Label>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefWidth="300.0" stylesheets="@application.css" text="Clients" textFill="#efefef" VBox.vgrow="ALWAYS">
-                  	<FontAwesomeIconView glyphName="USER" size="32px" />
+                  <VBox prefHeight="570.0" prefWidth="224.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="MANAGER" textFill="#efefef">
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefWidth="300.0" stylesheets="@application.css" text="Clients" textFill="#efefef" VBox.vgrow="ALWAYS">
+                           <padding>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                           </padding>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <styleClass>
+                              <String fx:value="managerButton" />
+                              <String fx:value="active" />
+                           </styleClass>
+                        </Button>
+                        <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefWidth="300.0" styleClass="managerButton" stylesheets="@application.css" text="Rooms" textFill="#efefef" VBox.vgrow="ALWAYS">
+                           <padding>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                           </padding>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefWidth="300.0" styleClass="managerButton" stylesheets="@application.css" text="Hosts" textFill="#efefef" VBox.vgrow="ALWAYS">
+                           <padding>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                           </padding>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefWidth="300.0" styleClass="managerButton" stylesheets="@application.css" text="Reservations" textFill="#efefef" VBox.vgrow="ALWAYS">
+                           <padding>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                           </padding>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefWidth="300.0" styleClass="managerButton" stylesheets="@application.css" text="My reservations" textFill="#efefef" VBox.vgrow="ALWAYS">
+                           <padding>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                           </padding>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="224.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" style="-fx-border-color: #efefef; -fx-border-width: 1px 0px 0px 0px;">
+                     <children>
+                        <VBox prefWidth="224.0">
+                        	<children>
+                        		<Label maxWidth="1.7976931348623157E308" text="Logged in as" textFill="#efefef" HBox.hgrow="ALWAYS">
+		                           <font>
+		                              <Font name="System" size="8.0" />
+		                           </font>
+		                        </Label>
+                        		<Label fx:id="username" maxWidth="1.7976931348623157E308" text="Username" textFill="#efefef" HBox.hgrow="ALWAYS">
+		                           <font>
+		                              <Font name="System Bold" size="14.0" />
+		                           </font>
+		                        </Label>
+                        	</children>
+                        </VBox>
+                  		<MaterialDesignIconView glyphName="SETTINGS" style="-fx-fill: #efefef;-fx-cursor: hand;" size="16px" onMouseClicked="#showSettings" />
+                     </children>
                      <padding>
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                      </padding>
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <styleClass>
-                        <String fx:value="managerButton" />
-                        <String fx:value="active" />
-                     </styleClass>
-                  </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefWidth="300.0" styleClass="managerButton" stylesheets="@application.css" text="Rooms" textFill="#efefef" VBox.vgrow="ALWAYS">
-                     <padding>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </padding>
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefWidth="300.0" styleClass="managerButton" stylesheets="@application.css" text="Hosts" textFill="#efefef" VBox.vgrow="ALWAYS">
-                     <padding>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </padding>
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefWidth="300.0" styleClass="managerButton" stylesheets="@application.css" text="Reservations" textFill="#efefef" VBox.vgrow="ALWAYS">
-                     <padding>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </padding>
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefWidth="300.0" styleClass="managerButton" stylesheets="@application.css" text="My reservations" textFill="#efefef" VBox.vgrow="ALWAYS">
-                     <padding>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </padding>
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
+                  </HBox>
                </children>
-            </VBox>
+            </AnchorPane>
          </left>
       </BorderPane>
    </children>

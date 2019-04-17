@@ -171,6 +171,7 @@ public class Database {
 			ResultSet results = query.executeQuery("SELECT * FROM clients WHERE (username like '" + configUser + "' OR email like '" + configUser + "') AND id =" + Integer.parseInt(configId) + " AND remember like '" + configExpire + "';");
 			if(results.next()) {
 				userFound = true;
+				Client.setLoggedInUser(new Client(results.getInt("id"), results.getString("username"), "***", results.getString("email"), results.getString("access_type")));
 				uff.showAlerts(FontAwesomeIcon.CHECK, "Logged in successfully...", "ok");
 			}
 		} catch (SQLException e) {
@@ -268,6 +269,37 @@ public class Database {
 		}
 		
 		return updated;
+	}
+
+	public boolean addnewUser(String username, String password, String email) {
+		
+		boolean userAdded = false;
+		
+		String query = "INSERT INTO clients (username, password, email, access_type) VALUES ('" + username + "', '" + password + "', '" + email + "', 'user');";
+		try {
+			Statement stmt = this.connection.createStatement();
+			int results = stmt.executeUpdate(query);
+			
+			if(results > 0) {
+				userAdded = true;
+				uff.showAlerts(FontAwesomeIcon.CHECK, "User has been added successfully!", "ok");
+			}else {
+				uff.showAlerts(FontAwesomeIcon.CLOSE, "Could not add new user for some reason...", "error");
+			}
+		}catch(Exception e) {
+			uff.showAlerts(FontAwesomeIcon.CLOSE, "Something wen't wrong with the database...", "error");
+		}
+		
+		return userAdded;
+	}
+
+	public void signOut() {
+
+		config.setProperty("user", "");
+		config.setProperty("id", "");
+		config.setProperty("expire", "");
+		
+		uff.changeScene("../view/Login.fxml", "Login");
 	}
 
 }

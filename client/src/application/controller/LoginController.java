@@ -81,15 +81,42 @@ public class LoginController {
     	}
     }
     
-    @FXML
-    void signupOnEnter(KeyEvent event) {
-    	if(event.getCode().compareTo(KeyCode.ENTER) == 0) {
-    		// asd
-    	}
-    }
     
     @FXML
     private VBox signupForm;
+    @FXML
+    private JFXTextField suusername;
+    @FXML
+    private JFXPasswordField supassword;
+    @FXML
+    private JFXTextField suemail;
+    @FXML
+    private JFXButton signupBtn;
+    
+    void signUp() {
+    	
+    	String username = suusername.getText();
+    	String password = db.getHashedPassword(supassword.getText());
+    	String email = suemail.getText();
+    	
+    	if(db.addnewUser(username, password, email)) {
+    		translateAnimationForm(signinForm, signupForm, Duration.millis(500), Duration.millis(500));
+    	}
+    	
+    }
+    
+    @FXML
+    void signupMethod(ActionEvent event) {
+    	signUp();
+    }
+    
+    @FXML
+    void signupOnEnter(KeyEvent event) {
+    	if(event.getCode().compareTo(KeyCode.ENTER) == 0) {
+        	signUp();
+    	}
+    }
+    
     
     @FXML
     private VBox recoverForm;

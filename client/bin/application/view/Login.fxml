@@ -127,7 +127,7 @@
                         <Insets top="30.0" />
                      </VBox.margin>
                   </JFXTextField>
-                  <JFXButton fx:id="signupBtn" maxWidth="1.7976931348623157E308" onKeyReleased="#signupOnEnter" ripplerFill="#efefef4f" style="-fx-background-color: rgba(44, 62, 80,.8); -fx-background-radius: 0;" text="¡Let me in!" textFill="#efefef">
+                  <JFXButton fx:id="signupBtn" maxWidth="1.7976931348623157E308" onAction="#signupMethod" onKeyReleased="#signupOnEnter" ripplerFill="#efefef4f" style="-fx-background-color: rgba(44, 62, 80,.8); -fx-background-radius: 0;" text="¡Let me in!" textFill="#efefef">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
