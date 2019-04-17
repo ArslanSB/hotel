@@ -6,9 +6,11 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 import application.model.Database;
+import application.model.Email;
 import application.model.HotelConfigProperties;
 import application.model.Main;
 import application.model.UsefullFunctions;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -70,15 +72,14 @@ public class StageController {
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert closeStageBtn != null : "fx:id=\"closeStageBtn\" was not injected: check your FXML file 'Stage.fxml'.";
-        
+
         Main.dynamicScene = dynamicScene;
         Main.stageTitle = topBorderTitle;
-        if(checkIfUserShouldBeLoggedIn()) {
+        if(false /*checkIfUserShouldBeLoggedIn()*/) {
         	uff.changeScene("../view/Manager.fxml", "Manager");
         }else{
         	uff.changeScene("../view/Login.fxml", "Login");
-        }
-        
+        }        
         makeWindowDragable();
 
     }

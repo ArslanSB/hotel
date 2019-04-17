@@ -22,8 +22,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import application.model.Database;
+import application.model.Email;
 import application.model.Main;
 import application.model.UsefullFunctions;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 
 public class LoginController {
 
@@ -57,7 +59,9 @@ public class LoginController {
     
     @FXML
     void signmein(ActionEvent event) {
-    	login();   	
+
+        uff.showAlerts(FontAwesomeIcon.CHECK, "Checking alertboxes", "ok");
+    	// login();   	
     }
     
     void login() {
