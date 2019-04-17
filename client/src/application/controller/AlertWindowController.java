@@ -5,13 +5,10 @@ import java.util.ResourceBundle;
 
 import application.model.Main;
 import application.model.UsefullFunctions;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class AlertWindowController {

@@ -38,6 +38,13 @@ public class Email {
 		                return new PasswordAuthentication(username, password);
 		            }
 				});
+		try {
+			message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(username));
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static Email getInstance() {
@@ -50,8 +57,6 @@ public class Email {
 		boolean sent = false;
 		
 		try {
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(username));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
 			
 			message.setSubject(sub);

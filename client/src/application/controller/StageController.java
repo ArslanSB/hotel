@@ -6,11 +6,9 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 import application.model.Database;
-import application.model.Email;
 import application.model.HotelConfigProperties;
 import application.model.Main;
 import application.model.UsefullFunctions;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -75,7 +73,7 @@ public class StageController {
 
         Main.dynamicScene = dynamicScene;
         Main.stageTitle = topBorderTitle;
-        if(false /*checkIfUserShouldBeLoggedIn()*/) {
+        if(checkIfUserShouldBeLoggedIn()) {
         	uff.changeScene("../view/Manager.fxml", "Manager");
         }else{
         	uff.changeScene("../view/Login.fxml", "Login");
