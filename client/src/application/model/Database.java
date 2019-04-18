@@ -8,6 +8,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -109,12 +113,24 @@ public class Database {
 		return pass;
 	}
 	
-	public ObservableList<Client> allClients() {
-		
+	public ObservableList<Client> allClients(String filter) {
+			
 		ObservableList<Client> clients = FXCollections.observableArrayList();
+
+		// CONCAT(COALESCE(name,""), " ",COALESCE(surnames,""), " ",COALESCE(address,""), " ",COALESCE(zipcode,""), " ",COALESCE(telephone,""), " ",email, " ",username)
+		// REGEXP 'condition1|condition2'
+		
+		String finalFilter = "";
+		for(String f : filter.split(" ")) {
+			
+			finalFilter += f + "|";
+			
+		}
+		finalFilter = finalFilter.substring(0, finalFilter.length() - 1);
+		
 		try {
 			Statement query = this.connection.createStatement();
-			ResultSet results = query.executeQuery("SELECT * FROM clients;");
+			ResultSet results = query.executeQuery("SELECT * FROM clients WHERE CONCAT(COALESCE(name,\"\"), \" \",COALESCE(surnames,\"\"), \" \",COALESCE(address,\"\"), \" \",COALESCE(zipcode,\"\"), \" \",COALESCE(telephone,\"\"), \" \",email, \" \",username) REGEXP '" + finalFilter + "'");
 			if(results.next()) {
 				clients.add(new Client(results.getInt("id"), results.getString("username"), "***", results.getString("email"), results.getString("access_type")));
 			}else {
@@ -124,7 +140,7 @@ public class Database {
 			// TODO Auto-generated catch block
 			uff.showAlerts(FontAwesomeIcon.CLOSE, "Something wen't wrong with the database...", "error");
 		}
-		
+				
 		return clients;
 		
 	}
