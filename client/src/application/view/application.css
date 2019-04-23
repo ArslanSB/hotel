@@ -21,3 +21,8 @@
 	-fx-background-color: #efefef;
 	-fx-text-fill:  #2c3e50;
 }
+
+.scroll-panel,
+.scroll-panel > .viewport{
+	-fx-background-color: transparent;
+}

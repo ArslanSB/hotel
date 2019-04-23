@@ -8,11 +8,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.xml.bind.DatatypeConverter;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -55,7 +50,7 @@ public class Database {
 			ResultSet results = query.executeQuery("SELECT * FROM clients WHERE (username like '" + username + "' or email like '" + username + "') AND password like '" + password + "';");
 			if(results.next()) {
 				userFound = true;
-				Client.setLoggedInUser(new Client(results.getInt("id"), results.getString("username"), "***", results.getString("email"), results.getString("access_type")));	    		
+				Client.setLoggedInUser(createClient(results));	    		
 	    		if(rememberme) {
 	    			config.setProperty("user", Client.getLoggedInUser().getUsername());
 		    		config.setProperty("id", String.valueOf(Client.getLoggedInUser().getId()));
@@ -113,28 +108,25 @@ public class Database {
 		return pass;
 	}
 	
-	public ObservableList<Client> allClients(String filter) {
+	public ObservableList<Client> getClients(String filter) {
 			
 		ObservableList<Client> clients = FXCollections.observableArrayList();
 
 		// CONCAT(COALESCE(name,""), " ",COALESCE(surnames,""), " ",COALESCE(address,""), " ",COALESCE(zipcode,""), " ",COALESCE(telephone,""), " ",email, " ",username)
-		// REGEXP 'condition1|condition2'
+		// REGEXP 'condition1|condition2|...'
 		
 		String finalFilter = "";
 		for(String f : filter.split(" ")) {
-			
 			finalFilter += f + "|";
-			
 		}
+		
 		finalFilter = finalFilter.substring(0, finalFilter.length() - 1);
 		
 		try {
 			Statement query = this.connection.createStatement();
-			ResultSet results = query.executeQuery("SELECT * FROM clients WHERE CONCAT(COALESCE(name,\"\"), \" \",COALESCE(surnames,\"\"), \" \",COALESCE(address,\"\"), \" \",COALESCE(zipcode,\"\"), \" \",COALESCE(telephone,\"\"), \" \",email, \" \",username) REGEXP '" + finalFilter + "'");
-			if(results.next()) {
-				clients.add(new Client(results.getInt("id"), results.getString("username"), "***", results.getString("email"), results.getString("access_type")));
-			}else {
-				this.error = "No clients found....";
+			ResultSet results = query.executeQuery("SELECT * FROM clients WHERE CONCAT(email, \" \",username) REGEXP '" + finalFilter + "'");
+			while(results.next()) {
+				clients.add(createClient(results));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -188,7 +180,7 @@ public class Database {
 			ResultSet results = query.executeQuery("SELECT * FROM clients WHERE (username like '" + configUser + "' OR email like '" + configUser + "') AND id =" + Integer.parseInt(configId) + " AND remember like '" + configExpire + "';");
 			if(results.next()) {
 				userFound = true;
-				Client.setLoggedInUser(new Client(results.getInt("id"), results.getString("username"), "***", results.getString("email"), results.getString("access_type")));
+				Client.setLoggedInUser(createClient(results));
 				uff.showAlerts(FontAwesomeIcon.CHECK, "Logged in successfully...", "ok");
 			}
 		} catch (SQLException e) {
@@ -319,4 +311,21 @@ public class Database {
 		uff.changeScene("../view/Login.fxml", "Login");
 	}
 
+	private Client createClient(ResultSet results) throws SQLException {
+		
+		return new Client(
+				results.getInt("id"),
+				results.getString("name"),
+				results.getString("surnames"),
+				results.getString("address"),
+				results.getString("zipcode"),
+				results.getString("telephone"),
+				results.getString("username"),
+				"***",
+				results.getString("email"),
+				results.getString("access_type")
+		);
+		
+	}
+	
 }

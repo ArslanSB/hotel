@@ -54,7 +54,7 @@ public class ManagerController {
         assert clients != null : "fx:id=\"clients\" was not injected: check your FXML file 'Manager.fxml'.";
         assert rooms != null : "fx:id=\"rooms\" was not injected: check your FXML file 'Manager.fxml'.";
 
-        username.setText(Client.getLoggedInUser().getUsername());
+        username.setText(Client.getLoggedInUser().getFullName());
         changeScene("../view/Clients.fxml", "Clients - Manager");
     }
 
