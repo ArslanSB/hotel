@@ -90,7 +90,7 @@ public class ClientViewModel extends VBox {
 		hbox.setPadding(new Insets(10, 15, 10, 15));
 		
 		FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.EDIT);
-		editIcon.setStyle("-fx-font-size: 16px; -fx-fill: #ddd");
+		editIcon.setStyle("-fx-font-size: 16px; -fx-fill: #ddd; -fx-font-family:\"FontAwesome\"");
 		JFXButton editBtn = new JFXButton("Edit Client", editIcon);
 		editBtn.setStyle("-fx-background-color: #2c3e50; -fx-background-radius: 0; -fx-text-fill: #ddd;");
 		editBtn.setPrefWidth(200);
