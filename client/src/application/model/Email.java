@@ -64,9 +64,9 @@ public class Email {
 			
 			Transport.send(message);
 			sent = true;
-			uff.showAlerts(FontAwesomeIcon.CHECK, "Email sent successfully, please check your email...", "ok");
+			uff.showAlerts("Email sent successfully, please check your email...", "ok");
 		}catch(MessagingException e) {
-			uff.showAlerts(FontAwesomeIcon.CLOSE, "Found an error while sending email...", "error");
+			uff.showAlerts("Found an error while sending email...", "error");
 		}
 		
 		return sent;

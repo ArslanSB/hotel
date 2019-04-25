@@ -1,6 +1,7 @@
 package application.controller;
 
 import java.net.URL;
+import javafx.util.Duration;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -10,6 +11,7 @@ import application.model.HotelConfigProperties;
 import application.model.Main;
 import application.model.UsefullFunctions;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -77,8 +79,35 @@ public class StageController {
         	uff.changeScene("../view/Manager.fxml", "Manager");
         }else{
         	uff.changeScene("../view/Login.fxml", "Login");
-        }        
+        }
         makeWindowDragable();
+        closeStageBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        	@Override
+			public void handle(MouseEvent event) {
+        		uff.hoverIconColorChange(closeStageBtn, "#efefef", Duration.millis(300));
+        	}
+		});
+        
+        closeStageBtn.setOnMouseExited(new EventHandler<MouseEvent>() {
+        	@Override
+			public void handle(MouseEvent event) {
+        		uff.hoverIconColorChange(closeStageBtn, "#34495e", Duration.millis(300));
+        	}
+		});
+        
+        minimizeStageBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        	@Override
+			public void handle(MouseEvent event) {
+        		uff.hoverIconColorChange(minimizeStageBtn, "#efefef", Duration.millis(300));
+        	}
+		});
+        
+        minimizeStageBtn.setOnMouseExited(new EventHandler<MouseEvent>() {
+        	@Override
+			public void handle(MouseEvent event) {
+        		uff.hoverIconColorChange(minimizeStageBtn, "#34495e", Duration.millis(300));
+        	}
+		});
 
     }
 
@@ -107,6 +136,5 @@ public class StageController {
     	}
     	
     	return loggedIn;
-    }
-    
+    }    
 }

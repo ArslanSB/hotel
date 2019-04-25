@@ -1,5 +1,8 @@
 package application.model;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -11,6 +14,7 @@ public class Client {
 	private String surnames;
 	private String address;
 	private String zipcode;
+	private Date dateofbirth;
 	private String telephone;
 	private String username;
 	private String password;
@@ -27,6 +31,7 @@ public class Client {
 			String surnames,
 			String address,
 			String zipcode,
+			Date dateofbirth,
 			String telephone,
 			String username,
 			String password,
@@ -38,6 +43,7 @@ public class Client {
 		this.surnames = surnames;
 		this.address = address;
 		this.zipcode = zipcode;
+		this.dateofbirth = dateofbirth;
 		this.telephone = telephone;
 		this.username = username;
 		this.password = password;
@@ -91,6 +97,18 @@ public class Client {
 
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
+	}
+
+	public Date getDateofbirth() {
+		return dateofbirth;
+	}
+
+	public void setDateofbirth(Date dateofbirth) {
+		this.dateofbirth = dateofbirth;
+	}
+	
+	public LocalDate getLocalDateofbirth() {
+		return Instant.ofEpochMilli(getDateofbirth().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 
 	public String getTelephone() {

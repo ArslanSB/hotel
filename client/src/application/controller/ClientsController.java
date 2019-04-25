@@ -4,10 +4,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXTextField;
+import com.sun.org.apache.xpath.internal.FoundIndex;
 
 import application.model.Client;
 import application.model.ClientViewModel;
 import application.model.Database;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -50,8 +53,11 @@ public class ClientsController {
     void showClientsInGrid(ObservableList<Client> clients) {
     	grid.getChildren().clear();
     	
-    	Label noUsers = new Label();
-    	noUsers.setText("No clients found with that criteria...");
+    	FontAwesomeIconView noUsersFound = new FontAwesomeIconView(FontAwesomeIcon.EXCLAMATION_TRIANGLE);
+    	noUsersFound.setGlyphSize(20);
+    	noUsersFound.setStyle("-fx-fill: #f39c12");
+    	Label noUsers = new Label("No clients found with that particular criteria try searching for something different!", noUsersFound);
+    	
     	if(clients.size() == 0) {
     		grid.add(noUsers, 0, 0);
     	}

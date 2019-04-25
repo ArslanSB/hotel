@@ -3,11 +3,17 @@ package application.model;
 import java.util.ArrayList;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -29,26 +35,27 @@ public class UsefullFunctions {
 		return UsefullFunctions._instance;
 	}
 	
-	public void showAlerts( FontAwesomeIcon icon, String message, String alertIconColor ) {
+	public void showAlerts(String message, String alertIconColor ) {
     	try {
     		
     		switch (alertIconColor) {
 			case "Error":
 			case "error":
 	    		Main.alertIconColor = "#c0392b";
+	    		Main.alertIcon = FontAwesomeIcon.CLOSE;
 				break;
 			case "Warning":
 			case "warning":
 				Main.alertIconColor = "#f39c12";
+	    		Main.alertIcon = FontAwesomeIcon.EXCLAMATION;
 				break;
 			case "OK":
 			case "ok":
 				Main.alertIconColor = "#27ae60";
+	    		Main.alertIcon = FontAwesomeIcon.CHECK;
 			default:
 				break;
 			}
-    		
-    		Main.alertIcon = icon;
 			Main.alertMessage = message;
     		
 			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/AlertWindow.fxml"));
@@ -103,6 +110,14 @@ public class UsefullFunctions {
 		for(int i = 0; i < alertBoxes.size(); i++) {
 			alertBoxes.get(i).setY((screenBounds.getHeight() - 150)  - i * 110);
 		}
+	}
+	
+	public void hoverIconColorChange(FontAwesomeIconView object, String color, Duration duration) {
+		Timeline tml = new Timeline();
+		KeyValue kv = new KeyValue(object.fillProperty(), Paint.valueOf(color));
+		KeyFrame kf = new KeyFrame(duration, kv);
+		tml.getKeyFrames().add(kf);
+		tml.play();
 	}
 	
 }

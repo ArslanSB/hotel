@@ -17,6 +17,7 @@ import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -157,6 +158,10 @@ public class LoginController {
         		recoverCode.setDisable(false);
         		
         		recoverCode.requestFocus();
+        		
+        		TranslateTransition trs = new TranslateTransition(Duration.millis(100), recoverForm);
+                trs.setByY(-33.5);
+                trs.play();
         	 }
     	} else {
     		if(!recoverCode.isDisable()) {
@@ -164,6 +169,10 @@ public class LoginController {
         			recoverCode.setDisable(true);
         			recoverForm.getChildren().add(3, newPassword);
         			newPassword.requestFocus();
+        			
+        			TranslateTransition trs = new TranslateTransition(Duration.millis(100), recoverForm);
+                    trs.setByY(-33.5);
+                    trs.play();
         		} 
     		} else {
     			if(db.updateUserPassword(recoverUser.getText(), newPassword.getText())) {

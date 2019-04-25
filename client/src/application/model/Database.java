@@ -32,7 +32,8 @@ public class Database {
 			connection = DriverManager.getConnection("jdbc:mysql://" + dbhost + "/" + dbname, dbuser, dbpassword);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			uff.showAlerts(FontAwesomeIcon.CLOSE, "Could not connect to the database", "error");
+			uff.showAlerts("Could not connect to the database", "error");
+			e.printStackTrace();
 		}
 		
 	}
@@ -57,14 +58,14 @@ public class Database {
 		    		config.setProperty("expire", Client.getLoggedInUser().getRemberme());
 	    			updateClientWithSession(Client.getLoggedInUser().getUsername(), Client.getLoggedInUser().getId(), Client.getLoggedInUser().getRemberme());
 	    		}
-				uff.showAlerts(FontAwesomeIcon.CHECK, "Logged in successfully...", "ok");
+				uff.showAlerts("Logged in successfully...", "ok");
 	    		
 			}else {
-				uff.showAlerts(FontAwesomeIcon.CLOSE, "Username/Email or password incorrect...", "error");
+				uff.showAlerts("Username/Email or password incorrect...", "error");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			uff.showAlerts(FontAwesomeIcon.CLOSE, "Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something wen't wrong with the database...", "error");
 		}
 		return userFound;
 	}
@@ -77,13 +78,13 @@ public class Database {
 			int results = stmt.executeUpdate(query);
 			
 			if(results > 0) {
-				uff.showAlerts(FontAwesomeIcon.CHECK, "User updated successfully...", "ok");
+				uff.showAlerts("User updated successfully...", "ok");
 			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			uff.showAlerts(FontAwesomeIcon.CLOSE, "Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something wen't wrong with the database...", "error");
 		}
 		
 	}
@@ -130,7 +131,7 @@ public class Database {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			uff.showAlerts(FontAwesomeIcon.CLOSE, "Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something wen't wrong with the database...", "error");
 		}
 				
 		return clients;
@@ -163,7 +164,7 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			uff.showAlerts(FontAwesomeIcon.CLOSE, "Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something wen't wrong with the database...", "error");
 		}
 		
 	}
@@ -181,11 +182,11 @@ public class Database {
 			if(results.next()) {
 				userFound = true;
 				Client.setLoggedInUser(createClient(results));
-				uff.showAlerts(FontAwesomeIcon.CHECK, "Logged in successfully...", "ok");
+				uff.showAlerts("Logged in successfully...", "ok");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			uff.showAlerts(FontAwesomeIcon.CLOSE, "Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something wen't wrong with the database...", "error");
 		}
 		return userFound;
 		
@@ -209,26 +210,26 @@ public class Database {
 					if(emailRes.next()) {
 						String email = emailRes.getString("email");
 						if(Email.getInstance().sendEmail(email, "Recovery code", "Here is your recovery code: " + randomToken + ", please put this code in the 'Recovery Code' field.")) {
-							uff.showAlerts(FontAwesomeIcon.CHECK, "Recovery code sent to your email...", "ok");
+							uff.showAlerts("Recovery code sent to your email...", "ok");
 							sent = true;
 						}else {
-							uff.showAlerts(FontAwesomeIcon.CLOSE, "Found an error while sending the recovry code...", "error");
+							uff.showAlerts("Found an error while sending the recovry code...", "error");
 						}
 					}
 					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-					uff.showAlerts(FontAwesomeIcon.CLOSE, "Something wen't wrong with the database...", "error");
+					uff.showAlerts("Something wen't wrong with the database...", "error");
 				}
 			}else {
-				uff.showAlerts(FontAwesomeIcon.CLOSE, "Found an error while sending the recovry code...", "error");
+				uff.showAlerts("Found an error while sending the recovry code...", "error");
 			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			uff.showAlerts(FontAwesomeIcon.CLOSE, "Found an error while sending the recovry code...", "error");
+			uff.showAlerts("Found an error while sending the recovry code...", "error");
 		}
 		
 		return sent;
@@ -242,13 +243,13 @@ public class Database {
 			ResultSet results = query.executeQuery("SELECT * FROM clients WHERE (username like '" + username + "' OR email like '" + username + "') AND recoverCode =" + Integer.parseInt(recovyCode) + ";");
 			if(results.next()) {
 				userFound = true;
-				uff.showAlerts(FontAwesomeIcon.CHECK, "Recovery code is correct, please choose your new password...", "ok");
+				uff.showAlerts("Recovery code is correct, please choose your new password...", "ok");
 			}else {
-				uff.showAlerts(FontAwesomeIcon.CLOSE, "Recovery code is incorrect, please check again...", "error");
+				uff.showAlerts("Recovery code is incorrect, please check again...", "error");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			uff.showAlerts(FontAwesomeIcon.CLOSE, "Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something wen't wrong with the database...", "error");
 		}
 		return userFound;
 		
@@ -268,13 +269,13 @@ public class Database {
 			
 			if(results > 0) {
 				updated = true;
-				uff.showAlerts(FontAwesomeIcon.CHECK, "Your password has been updated successfully!", "ok");
+				uff.showAlerts("Your password has been updated successfully!", "ok");
 			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			uff.showAlerts(FontAwesomeIcon.CLOSE, "Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something wen't wrong with the database...", "error");
 		}
 		
 		return updated;
@@ -291,12 +292,13 @@ public class Database {
 			
 			if(results > 0) {
 				userAdded = true;
-				uff.showAlerts(FontAwesomeIcon.CHECK, "User has been added successfully!", "ok");
+				uff.showAlerts("User has been added successfully!", "ok");
 			}else {
-				uff.showAlerts(FontAwesomeIcon.CLOSE, "Could not add new user for some reason...", "error");
+				uff.showAlerts("Could not add new user for some reason...", "error");
 			}
 		}catch(Exception e) {
-			uff.showAlerts(FontAwesomeIcon.CLOSE, "Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something wen't wrong with the database...", "error");
+			e.printStackTrace();
 		}
 		
 		return userAdded;
@@ -319,6 +321,7 @@ public class Database {
 				results.getString("surnames"),
 				results.getString("address"),
 				results.getString("zipcode"),
+				results.getDate("dateofbirth"),
 				results.getString("telephone"),
 				results.getString("username"),
 				"***",

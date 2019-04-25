@@ -1,20 +1,30 @@
 package application.model;
 
+import java.io.IOException;
+
 import com.jfoenix.controls.JFXButton;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class ClientViewModel extends VBox {
 
 	private Client client = null;
+	private static Client selectedClient = null;
+	private UsefullFunctions uff = UsefullFunctions.getInstance();
 	private double maxWidth = 240;
 	
 	public ClientViewModel(Client client) {
@@ -81,12 +91,32 @@ public class ClientViewModel extends VBox {
 		
 		FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.EDIT);
 		editIcon.setStyle("-fx-font-size: 16px; -fx-fill: #ddd");
-		JFXButton editBtn = new JFXButton("Edit Client");
+		JFXButton editBtn = new JFXButton("Edit Client", editIcon);
 		editBtn.setStyle("-fx-background-color: #2c3e50; -fx-background-radius: 0; -fx-text-fill: #ddd;");
 		editBtn.setPrefWidth(200);
 		editBtn.setCursor(Cursor.HAND);
-		editBtn.setGraphic(editIcon);
 		hbox.getChildren().add(editBtn);
+		
+		editBtn.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				AnchorPane root;
+				ClientViewModel.setSelectedClient(client);
+				try {
+					root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/ShowClient.fxml"));
+					Scene scene = new Scene(root);
+					scene.getStylesheets().add(getClass().getResource("../view/application.css").toExternalForm());
+					Stage showClient = new Stage();
+					showClient.setScene(scene);
+					showClient.initStyle(StageStyle.UNDECORATED);
+					showClient.show();
+				} catch (IOException e) {
+					e.printStackTrace();
+					uff.showAlerts("Could not open the show client window, please re-try again later...", "error");
+				}
+			}
+		});
 		
 		FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.USER_TIMES);
 		deleteIcon.setStyle("-fx-font-size: 16px; -fx-fill: #ddd");
@@ -99,6 +129,14 @@ public class ClientViewModel extends VBox {
 		
 		this.getChildren().add(hbox);
 		
+	}
+
+	public static Client getSelectedClient() {
+		return selectedClient;
+	}
+
+	public static void setSelectedClient(Client selectedClient) {
+		ClientViewModel.selectedClient = selectedClient;
 	}
 	
 }
