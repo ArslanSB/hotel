@@ -5,12 +5,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.xml.bind.DatatypeConverter;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -65,7 +65,7 @@ public class Database {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			uff.showAlerts("Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something went wrong with the database...", "error");
 		}
 		return userFound;
 	}
@@ -84,7 +84,7 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			uff.showAlerts("Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something went wrong with the database...", "error");
 		}
 		
 	}
@@ -117,21 +117,29 @@ public class Database {
 		// REGEXP 'condition1|condition2|...'
 		
 		String finalFilter = "";
-		for(String f : filter.split(" ")) {
-			finalFilter += f + "|";
+		String[] filterArray = filter.split(" ");
+		
+		String query = "SELECT * FROM clients";
+		if(filterArray[0].length() > 0 ) {
+			for(String f : filterArray) {
+				finalFilter += f + "|";
+			}
+			
+			finalFilter = finalFilter.substring(0, finalFilter.length() - 1);
+			query += " WHERE CONCAT(email, \" \",username) REGEXP ?";
 		}
 		
-		finalFilter = finalFilter.substring(0, finalFilter.length() - 1);
-		
 		try {
-			Statement query = this.connection.createStatement();
-			ResultSet results = query.executeQuery("SELECT * FROM clients WHERE CONCAT(email, \" \",username) REGEXP '" + finalFilter + "'");
+			PreparedStatement prepare = this.connection.prepareStatement(query);
+			if(filterArray[0].length() > 0) {
+				prepare.setString(1, finalFilter);
+			}
+			ResultSet results = prepare.executeQuery();
 			while(results.next()) {
 				clients.add(createClient(results));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			uff.showAlerts("Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something went wrong with the database...", "error");
 		}
 				
 		return clients;
@@ -162,9 +170,8 @@ public class Database {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			uff.showAlerts("Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something went wrong with the database...", "error");
 		}
 		
 	}
@@ -186,7 +193,7 @@ public class Database {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			uff.showAlerts("Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something went wrong with the database...", "error");
 		}
 		return userFound;
 		
@@ -220,7 +227,7 @@ public class Database {
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-					uff.showAlerts("Something wen't wrong with the database...", "error");
+					uff.showAlerts("Something went wrong with the database...", "error");
 				}
 			}else {
 				uff.showAlerts("Found an error while sending the recovry code...", "error");
@@ -248,8 +255,7 @@ public class Database {
 				uff.showAlerts("Recovery code is incorrect, please check again...", "error");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			uff.showAlerts("Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something went wrong with the database...", "error");
 		}
 		return userFound;
 		
@@ -273,9 +279,8 @@ public class Database {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			uff.showAlerts("Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something went wrong with the database...", "error");
 		}
 		
 		return updated;
@@ -297,7 +302,7 @@ public class Database {
 				uff.showAlerts("Could not add new user for some reason...", "error");
 			}
 		}catch(Exception e) {
-			uff.showAlerts("Something wen't wrong with the database...", "error");
+			uff.showAlerts("Something went wrong with the database...", "error");
 			e.printStackTrace();
 		}
 		
