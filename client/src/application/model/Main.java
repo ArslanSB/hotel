@@ -19,7 +19,8 @@ public class Main extends Application {
 	public static String alertMessage;
 	public static FontAwesomeIcon alertIcon;
 	public static String alertIconColor;
-	public static String clientSearch;
+	public static String clientSearch = "";
+	public static String showClient;
 	
 	@Override
 	public void start(Stage primaryStage) {

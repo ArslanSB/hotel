@@ -436,5 +436,30 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
+
+	public boolean addnewUser(Client client) {
+		
+		boolean userAdded = false;
+		
+		String query = "INSERT INTO clients (name, surnames, address, zipcode, telephone, dateofbirth, username, password, email) VALUES "
+				+ "('" + client.getName() + "', '" + client.getSurnames() + "', '" + client.getAddress() + "', '" + client.getZipcode() + "', '" + client.getTelephone() + "', '" + client.getDateofbirth() + "', '" + client.getUsername() + "', '" + client.getPassword() + "', '" + client.getEmail() + "');";
+		try {
+			Statement stmt = this.connection.createStatement();
+			int results = stmt.executeUpdate(query);
+			
+			if(results > 0) {
+				userAdded = true;
+				uff.showAlerts("User has been added successfully!", "ok");
+			}else {
+				uff.showAlerts("Could not add new user for some reason...", "error");
+			}
+		}catch(Exception e) {
+			uff.showAlerts("Something went wrong with the database...", "error");
+			e.printStackTrace();
+		}
+		
+		return userAdded;
+		
+	}
 	
 }

@@ -1,8 +1,10 @@
 package application.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.sun.org.apache.xpath.internal.FoundIndex;
 
@@ -10,18 +12,28 @@ import application.model.Client;
 import application.model.ClientViewModel;
 import application.model.Database;
 import application.model.Main;
+import application.model.UsefullFunctions;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class ClientsController {
 	
 	private Database db = Database.getInstance();
+	private UsefullFunctions uff = UsefullFunctions.getInstance();
 	
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -43,11 +55,40 @@ public class ClientsController {
     	
     }
   
+    @FXML JFXButton addClientBtn;
+    
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
     	clients.setContent(grid);
     	grid.setHgap(5);
     	grid.setVgap(5);
+    	
+    	FontAwesomeIconView addUserIcon = new FontAwesomeIconView(FontAwesomeIcon.USER_PLUS);
+    	addUserIcon.setStyle("-fx-fill: #efefef");
+    	addClientBtn.setGraphic(addUserIcon);
+    	addClientBtn.setCursor(Cursor.HAND);
+    	addClientBtn.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				Main.showClient = "New";
+				
+				AnchorPane root;
+				try {
+					root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/ShowClient.fxml"));
+					Scene scene = new Scene(root);
+					scene.getStylesheets().add(getClass().getResource("../view/application.css").toExternalForm());
+					Stage showClient = new Stage();
+					showClient.setScene(scene);
+					showClient.initStyle(StageStyle.UNDECORATED);
+					showClient.show();
+				} catch (IOException e) {
+					e.printStackTrace();
+					uff.showAlerts("Could not open the show client window, please re-try again later...", "error");
+				}
+			}
+		});
+    	
     	
     	showClientsInGrid(db.getClients(""));
     }

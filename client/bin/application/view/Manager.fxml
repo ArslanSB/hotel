@@ -51,7 +51,7 @@
 		                        </Label>
                         	</children>
                         </VBox>
-                  		<FontAwesomeIconView glyphName="SIGN_OUT" style="-fx-fill: #efefef;-fx-cursor: hand;" size="16px" onMouseClicked="#showSettings" />
+                  		<FontAwesomeIconView fx:id="signOutBtn" glyphName="SIGN_OUT" style="-fx-fill: #34495e;-fx-cursor: hand;" size="16px" onMouseClicked="#signOut" />
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />

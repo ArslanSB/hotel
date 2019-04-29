@@ -55,6 +55,8 @@ public class ManagerController {
 
 	@FXML VBox sideBar;
 
+	@FXML FontAwesomeIconView signOutBtn;
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert clients != null : "fx:id=\"clients\" was not injected: check your FXML file 'Manager.fxml'.";
@@ -63,6 +65,20 @@ public class ManagerController {
         username.setText(Client.getLoggedInUser().getFullName());
         changeScene("../view/Clients.fxml", "Clients");
         
+        signOutBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        	@Override
+			public void handle(MouseEvent event) {
+        		uff.hoverIconColorChange(signOutBtn, "#efefef", Duration.millis(300));
+        	}
+		});
+        
+        signOutBtn.setOnMouseExited(new EventHandler<MouseEvent>() {
+        	@Override
+			public void handle(MouseEvent event) {
+        		uff.hoverIconColorChange(signOutBtn, "#34495e", Duration.millis(300));
+        	}
+		});
+        
         managerButton("clients", FontAwesomeIcon.USER, true);
         managerButton("apartments", FontAwesomeIcon.HOME, false);
         managerButton("reservations", FontAwesomeIcon.CALENDAR_CHECK_ALT, false);
@@ -70,7 +86,7 @@ public class ManagerController {
         
     }
 
-	@FXML public void showSettings(MouseEvent event) {
+	@FXML public void signOut(MouseEvent event) {
 		
 		// for now sign out
 		db.signOut();
@@ -97,7 +113,7 @@ public class ManagerController {
         button.setGraphic(icon);
         button.setPrefWidth(224);
         button.setAlignment(Pos.CENTER_LEFT);
-        button.setPadding(new Insets(10, 20, 10, 20));
+        button.setPadding(new Insets(5, 20, 5, 20));
         button.setTextAlignment(TextAlignment.LEFT);
         button.setFocusTraversable(false);
         button.setStyle("-fx-text-fill: #34495e; -fx-font-size: 16px; -fx-background-color: #2c3e50; -fx-background-radius: 0");

@@ -103,6 +103,9 @@ public class ClientViewModel extends VBox {
 			
 			@Override
 			public void handle(ActionEvent event) {
+				
+				Main.showClient = "Edit";
+				
 				AnchorPane root;
 				ClientViewModel.setSelectedClient(client);
 				try {
