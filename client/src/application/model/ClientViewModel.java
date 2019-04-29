@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.jfoenix.controls.JFXButton;
 
+import application.controller.ClientsController;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
@@ -25,6 +26,7 @@ public class ClientViewModel extends VBox {
 	private Client client = null;
 	private static Client selectedClient = null;
 	private UsefullFunctions uff = UsefullFunctions.getInstance();
+	private Database db = Database.getInstance();
 	private double maxWidth = 240;
 	
 	public ClientViewModel(Client client) {
@@ -124,6 +126,14 @@ public class ClientViewModel extends VBox {
 		deleteBtn.setStyle("-fx-background-color: #2c3e50; -fx-background-radius: 0; -fx-text-fill: #ddd;");
 		deleteBtn.setPrefWidth(200);
 		deleteBtn.setCursor(Cursor.HAND);
+		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				db.deleteUser(client);
+				ClientsController.showClientsInGrid(db.getClients(Main.clientSearch));
+			}
+		});
 		hbox.getChildren().add(deleteBtn);
 		
 		

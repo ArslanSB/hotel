@@ -2,17 +2,26 @@ package application.model;
 
 import java.util.ArrayList;
 
+import com.jfoenix.controls.JFXButton;
+
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
+import javafx.animation.Transition;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Paint;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -120,4 +129,13 @@ public class UsefullFunctions {
 		tml.play();
 	}
 	
+	public void hoverButtonBackgroundColorChange(Label object, String color, Duration duration) {
+	
+		Timeline tml = new Timeline();
+		KeyValue kv = new KeyValue(object.textFillProperty(), Paint.valueOf(color));
+		KeyFrame kf = new KeyFrame(duration, kv);
+		tml.getKeyFrames().add(kf);
+		tml.play();
+		
+	}
 }

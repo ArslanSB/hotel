@@ -1,20 +1,32 @@
 package application.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import com.jfoenix.controls.JFXButton;
 
 import application.model.Client;
 import application.model.Database;
 import application.model.Main;
 import application.model.UsefullFunctions;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 
 public class ManagerController {
 	
@@ -38,16 +50,10 @@ public class ManagerController {
 	private Database db = Database.getInstance();
 
 	@FXML BorderPane mainScene;
+	
+	ArrayList<Label> managerButtons = new ArrayList<Label>();
 
-
-    @FXML
-    void showClients(ActionEvent event) {
-    }
-
-    @FXML
-    void showRooms(ActionEvent event) {
-
-    }
+	@FXML VBox sideBar;
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -55,7 +61,13 @@ public class ManagerController {
         assert rooms != null : "fx:id=\"rooms\" was not injected: check your FXML file 'Manager.fxml'.";
 
         username.setText(Client.getLoggedInUser().getFullName());
-        changeScene("../view/Clients.fxml", "Clients - Manager");
+        changeScene("../view/Clients.fxml", "Clients");
+        
+        managerButton("clients", FontAwesomeIcon.USER, true);
+        managerButton("apartments", FontAwesomeIcon.HOME, false);
+        managerButton("reservations", FontAwesomeIcon.CALENDAR_CHECK_ALT, false);
+        
+        
     }
 
 	@FXML public void showSettings(MouseEvent event) {
@@ -66,7 +78,7 @@ public class ManagerController {
 	}
 	
 	public void changeScene(String FXMLLink, String windowTitle) {
-		Main.stageTitle.setText(windowTitle);
+		Main.stageTitle.setText(windowTitle + " - Manager");
 		mainScene.setCenter(null);
         try {
 			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource(FXMLLink));
@@ -74,5 +86,85 @@ public class ManagerController {
         } catch(Exception e) {
         	e.printStackTrace();
         }
+	}
+	
+	private void managerButton(String buttonText, FontAwesomeIcon buttonIcon, boolean active) {
+		
+		Label button = new Label("   " + buttonText.toUpperCase());
+		FontAwesomeIconView icon = new FontAwesomeIconView(buttonIcon);
+		icon.setStyle("-fx-fill: #34495e");
+		icon.setGlyphSize(16);
+        button.setGraphic(icon);
+        button.setPrefWidth(224);
+        button.setAlignment(Pos.CENTER_LEFT);
+        button.setPadding(new Insets(10, 20, 10, 20));
+        button.setTextAlignment(TextAlignment.LEFT);
+        button.setFocusTraversable(false);
+        button.setStyle("-fx-text-fill: #34495e; -fx-font-size: 16px; -fx-background-color: #2c3e50; -fx-background-radius: 0");
+        button.setCursor(Cursor.HAND);
+        button.setAccessibleHelp("");
+        sideBar.getChildren().add(button);
+        
+        if(active) {
+        	button.setStyle("-fx-text-fill: #efefef; -fx-font-size: 16px;");
+        	icon.setGlyphSize(16);
+        	icon.setStyle("-fx-fill: #efefef;");
+        	button.setAccessibleHelp("Active");
+        }
+        
+        button.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        	@Override
+			public void handle(MouseEvent event) {
+    			if(!button.getAccessibleHelp().equalsIgnoreCase("Active")) {
+    				uff.hoverButtonBackgroundColorChange(button, "#efefef", Duration.millis(300));
+            		uff.hoverIconColorChange(icon, "#efefef", Duration.millis(300));
+    			}
+        	}
+		});
+        
+        button.setOnMouseExited(new EventHandler<MouseEvent>() {
+        	@Override
+			public void handle(MouseEvent event) {
+        		if(!button.getAccessibleHelp().equalsIgnoreCase("Active")) {
+	    			uff.hoverButtonBackgroundColorChange(button, "#34495e", Duration.millis(300));
+	        		uff.hoverIconColorChange(icon, "#34495e", Duration.millis(300));
+        		}
+        	}
+		});
+        
+        button.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				
+				for(Label btn : managerButtons) {
+					uff.hoverButtonBackgroundColorChange(btn, "#34495e", Duration.millis(300));
+            		uff.hoverIconColorChange(((FontAwesomeIconView) btn.getGraphic()), "#34495e", Duration.millis(300));
+            		btn.setAccessibleHelp("");
+				}
+				
+				Label curr = (Label) event.getSource();
+				uff.hoverButtonBackgroundColorChange(curr, "#efefef", Duration.millis(300));
+        		uff.hoverIconColorChange(((FontAwesomeIconView) curr.getGraphic()), "#efefef", Duration.millis(300));
+        		curr.setAccessibleHelp("Active");
+        		        		
+        		switch (curr.getText().toLowerCase()) {
+				case "   clients":
+					changeScene("../view/Clients.fxml", "Clients");
+					break;
+				case "   apartments":
+					changeScene("../view/Apartments.fxml", "Clients");
+					break;
+				case "   reservations":
+					changeScene("../view/Reservations.fxml", "Reservations");
+					break;
+				default:
+					break;
+				}
+        		
+			}
+		});
+        
+        managerButtons.add(button);
 	}
 }

@@ -9,6 +9,7 @@ import com.sun.org.apache.xpath.internal.FoundIndex;
 import application.model.Client;
 import application.model.ClientViewModel;
 import application.model.Database;
+import application.model.Main;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.ObservableList;
@@ -30,7 +31,7 @@ public class ClientsController {
 
     @FXML
     private ScrollPane clients;
-    private GridPane grid = new GridPane();
+    private static GridPane grid = new GridPane();
     
     @FXML
     private JFXTextField searchClients;
@@ -38,6 +39,7 @@ public class ClientsController {
     void showClients(KeyEvent e) {
     	
     	showClientsInGrid(db.getClients(searchClients.getText()));
+    	Main.clientSearch = searchClients == null ? "" : searchClients.getText();
     	
     }
   
@@ -50,7 +52,7 @@ public class ClientsController {
     	showClientsInGrid(db.getClients(""));
     }
     
-    void showClientsInGrid(ObservableList<Client> clients) {
+    public static void showClientsInGrid(ObservableList<Client> clients) {
     	grid.getChildren().clear();
     	
     	FontAwesomeIconView noUsersFound = new FontAwesomeIconView(FontAwesomeIcon.EXCLAMATION_TRIANGLE);

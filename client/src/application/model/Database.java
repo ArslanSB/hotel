@@ -140,6 +140,7 @@ public class Database {
 			}
 		} catch (SQLException e) {
 			uff.showAlerts("Something went wrong with the database...", "error");
+			e.printStackTrace();
 		}
 				
 		return clients;
@@ -334,6 +335,106 @@ public class Database {
 				results.getString("access_type")
 		);
 		
+	}
+
+	public ObservableList<Apartment> getApartments() {
+		ObservableList<Apartment> apartments = FXCollections.observableArrayList();
+		
+		try {
+			Statement query = this.connection.createStatement();
+			ResultSet results = query.executeQuery("SELECT a.*, CONCAT(c.name, \" \", c.surnames) as \"client_name\" FROM apartments a INNER JOIN clients c on a.id_client = c.id;");
+			while(results.next()) {
+				apartments.add(new Apartment(
+						results.getInt("id"),
+						results.getInt("num_rooms"),
+						results.getInt("max_capacity"),
+						results.getString("description"),
+						results.getString("address"),
+						results.getInt("id_client"),
+						results.getDouble("price_night"),
+						results.getString("state"),
+						results.getString("client_name")
+						));
+			}
+		} catch (SQLException e) {
+			uff.showAlerts("Something went wrong with the database...", "error");
+		}
+		
+		return apartments;
+	}
+
+	public void deleteApartment(Apartment apartment) {
+		
+		String query = "DELETE FROM apartments WHERE id = " + apartment.getId() + ";";
+		try {
+			Statement stmt = this.connection.createStatement();
+			int results = stmt.executeUpdate(query);
+			
+			if(results > 0) {
+				uff.showAlerts("Apartment has been deleted successfully!", "ok");
+			}
+		}catch(Exception e) {
+			uff.showAlerts("Something went wrong with the database...", "error");
+			e.printStackTrace();
+		}
+		
+	}
+
+	public ObservableList<Reservations> getReservations(String start_date, String end_date) {
+				
+		ObservableList<Reservations> reservations = FXCollections.observableArrayList();
+		String queryStmt = "SELECT r.*, CONCAT(c.name, \" \", c.surnames) as \"client_name\" FROM reservations r INNER JOIN clients c on r.id_client = c.id";
+		if(!start_date.equalsIgnoreCase("") && !end_date.equalsIgnoreCase("")) {
+			queryStmt += " WHERE (res_start BETWEEN '" + start_date + "' AND '" + end_date + "') OR (res_end BETWEEN '" + start_date + "' AND '" + end_date + "');";
+		}else {
+			if(!start_date.equalsIgnoreCase("")) {
+				queryStmt += " WHERE res_start >= '" + start_date + "';";
+			}
+			
+			if(!end_date.equalsIgnoreCase("")) {
+				queryStmt += " WHERE '" + end_date + "' <= res_end;";
+			}
+		}
+		try {
+			Statement query = this.connection.createStatement();
+			ResultSet results = query.executeQuery(queryStmt);
+			while(results.next()) {
+				reservations.add(new Reservations(
+						results.getInt(1),
+						results.getInt(2),
+						results.getInt(3),
+						results.getString(4),
+						results.getString(5),
+						results.getString(6),
+						results.getString(7),
+						results.getDouble(8),
+						results.getDate(9),
+						results.getDate(10),
+						results.getDate(11),
+						results.getString(12)
+						));
+			}
+		} catch (SQLException e) {
+			uff.showAlerts("Something went wrong with the database...", "error");
+			e.printStackTrace();
+		}
+		
+		return reservations;
+	}
+
+	public void deleteUser(Client client) {
+		String query = "DELETE FROM clients WHERE id = " + client.getId() + ";";
+		try {
+			Statement stmt = this.connection.createStatement();
+			int results = stmt.executeUpdate(query);
+			
+			if(results > 0) {
+				uff.showAlerts("Client has been deleted successfully!", "ok");
+			}
+		}catch(Exception e) {
+			uff.showAlerts("Something went wrong with the database...", "error");
+			e.printStackTrace();
+		}
 	}
 	
 }
