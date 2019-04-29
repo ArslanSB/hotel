@@ -1,5 +1,6 @@
 package application.controller;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -17,6 +18,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
@@ -121,33 +123,70 @@ public class ShowClientController {
         	submitBtn.setText("Update Client");
         }else if(Main.showClient.equalsIgnoreCase("New")){
         	topBorderTitle.setText("Insert new client");
+        	clientName.setText("ADD NEW CLIENT");
+        	nameField.setText("");
+        	surnamesField.setText("");
+        	addressField.setText("");
+        	zipcodeField.setText("");
+        	dateField.setValue(LocalDate.of(1900, 01, 01));
+        	telephoneField.setText("");
+        	emailField.setText("");
+        	usernameField.setText("");
         	submitBtn.setText("Insert Client");
         }
         
-        
+        submitBtn.setCursor(Cursor.HAND);
         submitBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
-			public void handle(ActionEvent event) {
-
-				if(Main.showClient.equalsIgnoreCase("New")) {
-					
-					Client insertClient = new Client(
-							1000,
-							clientName.getText(),
-							surnamesField.getText(),
-							addressField.getText(),
-							zipcodeField.getText(),
-							java.sql.Date.valueOf(dateField.getValue()),
-							telephoneField.getText(),
-							usernameField.getText(),
-							db.getHashedPassword(passwordField.getText()),
-							emailField.getText(),
-							"user");
-					if(db.addnewUser(insertClient)) {
-						((Stage) closeStageBtn.getScene().getWindow()).close();
-						ClientsController.showClientsInGrid(db.getClients(Main.clientSearch));
+			public void handle(ActionEvent event) {				
+				if(
+						usernameField.getText().equalsIgnoreCase("") ||
+						emailField.getText().equalsIgnoreCase("")
+						) {
+					uff.showAlerts("Missing username, password or email, please check....", "error");
+				}else {
+				
+					if(Main.showClient.equalsIgnoreCase("New")) {
+						
+						if(passwordField.getText().equalsIgnoreCase("")) {
+							uff.showAlerts("Missing password...", "error");
+						}else {
+							Client insertClient = new Client(
+									1000,
+									nameField.getText(),
+									surnamesField.getText(),
+									addressField.getText(),
+									zipcodeField.getText(),
+									java.sql.Date.valueOf(dateField.getValue()),
+									telephoneField.getText(),
+									usernameField.getText(),
+									db.getHashedPassword(passwordField.getText()),
+									emailField.getText(),
+									"user");
+							db.addnewUser(insertClient);
+						}
+						
+					}else if(Main.showClient.equalsIgnoreCase("Edit")) {
+						
+						ClientViewModel.getSelectedClient().setName(nameField.getText());
+						ClientViewModel.getSelectedClient().setSurnames(surnamesField.getText());
+						ClientViewModel.getSelectedClient().setAddress(addressField.getText());;
+						ClientViewModel.getSelectedClient().setZipcode(zipcodeField.getText());
+						ClientViewModel.getSelectedClient().setDateofbirth(java.sql.Date.valueOf(dateField.getValue()));
+						ClientViewModel.getSelectedClient().setTelephone(telephoneField.getText());
+						ClientViewModel.getSelectedClient().setUsername(usernameField.getText());
+						if(!passwordField.getText().equalsIgnoreCase("")) {
+							ClientViewModel.getSelectedClient().setPassword(db.getHashedPassword(passwordField.getText()));
+						}
+						ClientViewModel.getSelectedClient().setEmail(emailField.getText());
+						
+						db.updateClient(ClientViewModel.getSelectedClient());
+						
 					}
+
+					((Stage) closeStageBtn.getScene().getWindow()).close();
+					ClientsController.showClientsInGrid(db.getClients(Main.clientSearch));
 				}
 				
 			}

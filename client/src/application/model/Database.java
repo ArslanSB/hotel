@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+
 import javax.xml.bind.DatatypeConverter;
 
 import javafx.collections.FXCollections;
@@ -443,6 +445,41 @@ public class Database {
 		
 		String query = "INSERT INTO clients (name, surnames, address, zipcode, telephone, dateofbirth, username, password, email) VALUES "
 				+ "('" + client.getName() + "', '" + client.getSurnames() + "', '" + client.getAddress() + "', '" + client.getZipcode() + "', '" + client.getTelephone() + "', '" + client.getDateofbirth() + "', '" + client.getUsername() + "', '" + client.getPassword() + "', '" + client.getEmail() + "');";
+		try {
+			Statement stmt = this.connection.createStatement();
+			int results = stmt.executeUpdate(query);
+			
+			if(results > 0) {
+				userAdded = true;
+				uff.showAlerts("User has been added successfully!", "ok");
+			}else {
+				uff.showAlerts("Could not add new user for some reason...", "error");
+			}
+		}catch(Exception e) {
+			uff.showAlerts("Something went wrong with the database...", "error");
+			e.printStackTrace();
+		}
+		
+		return userAdded;
+		
+	}
+
+	public boolean updateClient(Client client) {
+		
+		String updateTheseProperties = "username='"+client.getUsername()+"', email='"+client.getEmail()+"', dateofbirth='"+client.getDateofbirth()+"', ";
+		
+		if(!client.getName().equalsIgnoreCase("") || !client.getName().equalsIgnoreCase("NA")) { updateTheseProperties += " name='"+client.getName()+"', "; }
+		if(!client.getSurnames().equalsIgnoreCase("") || !client.getSurnames().equalsIgnoreCase("NA")) { updateTheseProperties += " surnames='"+client.getSurnames()+"', "; }
+		if(!client.getAddress().equalsIgnoreCase("") || !client.getAddress().equalsIgnoreCase("NA")) { updateTheseProperties += " address='"+client.getAddress()+"', "; }
+		if(!client.getZipcode().equalsIgnoreCase("") || !client.getZipcode().equalsIgnoreCase("NA")) { updateTheseProperties += " zipcode='"+client.getZipcode()+"', "; }
+		if(!client.getTelephone().equalsIgnoreCase("") || !client.getTelephone().equalsIgnoreCase("NA")) { updateTheseProperties += " telephone='"+client.getTelephone()+"', "; }
+		if(!client.getPassword().equalsIgnoreCase("***")) { updateTheseProperties += " password='"+client.getPassword()+"', "; }
+		
+		updateTheseProperties = updateTheseProperties.substring(0, updateTheseProperties.length() - 2);
+		
+		boolean userAdded = false;
+		
+		String query = "UPDATE clients SET " + updateTheseProperties + " WHERE id = " + client.getId() + ";";
 		try {
 			Statement stmt = this.connection.createStatement();
 			int results = stmt.executeUpdate(query);
