@@ -81,6 +81,7 @@ public class ClientsController {
 					Stage showClient = new Stage();
 					showClient.setScene(scene);
 					showClient.initStyle(StageStyle.UNDECORATED);
+					showClient.initOwner(Main.mainStage);
 					showClient.show();
 				} catch (IOException e) {
 					e.printStackTrace();

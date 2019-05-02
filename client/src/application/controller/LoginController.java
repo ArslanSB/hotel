@@ -134,7 +134,7 @@ public class LoginController {
     	recoverCode.setPadding(new Insets(10));
     	recoverCode.prefWidth(250);
     	recoverCode.setFocusColor(Paint.valueOf("#efefef"));
-    	recoverCode.setUnFocusColor(Paint.valueOf("#34495e"));
+    	recoverCode.setUnFocusColor(Paint.valueOf("#636e72"));
     	recoverCode.setStyle("-fx-text-fill: #efefef");
     	recoverCode.setPromptText("Recover Code");
     	recoverCode.setLabelFloat(true);
@@ -144,7 +144,7 @@ public class LoginController {
     	newPassword.setPadding(new Insets(10));
     	newPassword.prefWidth(250);
     	newPassword.setFocusColor(Paint.valueOf("#efefef"));
-    	newPassword.setUnFocusColor(Paint.valueOf("#34495e"));
+    	newPassword.setUnFocusColor(Paint.valueOf("#636e72"));
     	newPassword.setStyle("-fx-text-fill: #efefef");
     	newPassword.setPromptText("New Password");
     	newPassword.setLabelFloat(true);

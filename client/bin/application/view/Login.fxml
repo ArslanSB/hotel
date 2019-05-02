@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.media.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.shape.*?>
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
-<?import de.jensd.fx.glyphs.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="1024.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="1024.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LoginController">
    <children>
       <ImageView blendMode="EXCLUSION" fitHeight="593.0" fitWidth="1048.0" layoutX="-13.0" layoutY="-11.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -33,7 +35,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="siusername" focusColor="#efefef" labelFloat="true" onKeyPressed="#loginOnEnter" promptText="Username | Email" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#34495e">
+                  <JFXTextField fx:id="siusername" focusColor="#efefef" labelFloat="true" onKeyPressed="#loginOnEnter" promptText="Username | Email" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#636e72">
                      <VBox.margin>
                         <Insets top="40.0" />
                      </VBox.margin>
@@ -44,7 +46,7 @@
                         <Font size="13.0" />
                      </font>
                   </JFXTextField>
-                  <JFXPasswordField fx:id="sipassword" focusColor="#efefef" labelFloat="true" onKeyPressed="#loginOnEnter" promptText="Password" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#34495e">
+                  <JFXPasswordField fx:id="sipassword" focusColor="#efefef" labelFloat="true" onKeyPressed="#loginOnEnter" promptText="Password" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#636e72">
                      <VBox.margin>
                         <Insets top="30.0" />
                      </VBox.margin>
@@ -55,7 +57,7 @@
                         <Font size="13.0" />
                      </font>
                   </JFXPasswordField>
-                  <JFXCheckBox fx:id="siremember" checkedColor="#34495e" onKeyPressed="#loginOnEnter" text="Rembember me" textFill="#efefef" unCheckedColor="#efefef">
+                  <JFXCheckBox fx:id="siremember" checkedColor="#636e72" onKeyPressed="#loginOnEnter" selected="true" text="Rembember me" textFill="#efefef" unCheckedColor="#efefef">
                      <VBox.margin>
                         <Insets bottom="20.0" left="10.0" top="20.0" />
                      </VBox.margin>
@@ -94,7 +96,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="suusername" focusColor="#efefef" labelFloat="true" onKeyReleased="#signupOnEnter" promptText="Username" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#34495e">
+                  <JFXTextField fx:id="suusername" focusColor="#efefef" labelFloat="true" onKeyReleased="#signupOnEnter" promptText="Username" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#636e72">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -105,7 +107,7 @@
                         <Insets top="40.0" />
                      </VBox.margin>
                   </JFXTextField>
-                  <JFXPasswordField fx:id="supassword" focusColor="#efefef" labelFloat="true" onKeyReleased="#signupOnEnter" promptText="Password" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#34495e">
+                  <JFXPasswordField fx:id="supassword" focusColor="#efefef" labelFloat="true" onKeyReleased="#signupOnEnter" promptText="Password" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#636e72">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -116,7 +118,7 @@
                         <Insets top="30.0" />
                      </VBox.margin>
                   </JFXPasswordField>
-                  <JFXTextField fx:id="suemail" focusColor="#efefef" labelFloat="true" onKeyReleased="#signupOnEnter" promptText="E-Mail" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#34495e">
+                  <JFXTextField fx:id="suemail" focusColor="#efefef" labelFloat="true" onKeyReleased="#signupOnEnter" promptText="E-Mail" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#636e72">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -153,7 +155,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="recoverUser" focusColor="#efefef" labelFloat="true" onKeyPressed="#loginOnEnter" promptText="Username | Email" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#34495e">
+                  <JFXTextField fx:id="recoverUser" focusColor="#efefef" labelFloat="true" onKeyPressed="#loginOnEnter" promptText="Username | Email" style="-fx-text-fill: #efefef; -fx-prompt-text-fill: #bdc3c7;" unFocusColor="#636e72">
                      <font>
                         <Font size="13.0" />
                      </font>

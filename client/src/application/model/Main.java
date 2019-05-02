@@ -21,6 +21,7 @@ public class Main extends Application {
 	public static String alertIconColor;
 	public static String clientSearch = "";
 	public static String showClient;
+	public static BorderPane managerMainScene;
 	
 	@Override
 	public void start(Stage primaryStage) {

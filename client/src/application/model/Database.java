@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.xml.bind.DatatypeConverter;
@@ -33,7 +34,6 @@ public class Database {
 			
 			connection = DriverManager.getConnection("jdbc:mysql://" + dbhost + "/" + dbname, dbuser, dbpassword);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			uff.showAlerts("Could not connect to the database", "error");
 			e.printStackTrace();
 		}
@@ -66,7 +66,6 @@ public class Database {
 				uff.showAlerts("Username/Email or password incorrect...", "error");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			uff.showAlerts("Something went wrong with the database...", "error");
 		}
 		return userFound;
@@ -84,7 +83,6 @@ public class Database {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			uff.showAlerts("Something went wrong with the database...", "error");
 		}
@@ -101,10 +99,8 @@ public class Database {
 			byte[] result = md5Password.digest();
 			pass = DatatypeConverter.printHexBinary(result).toLowerCase();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -195,7 +191,6 @@ public class Database {
 				uff.showAlerts("Logged in successfully...", "ok");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			uff.showAlerts("Something went wrong with the database...", "error");
 		}
 		return userFound;
@@ -228,7 +223,6 @@ public class Database {
 					}
 					
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					uff.showAlerts("Something went wrong with the database...", "error");
 				}
@@ -237,7 +231,6 @@ public class Database {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			uff.showAlerts("Found an error while sending the recovry code...", "error");
 		}
@@ -344,7 +337,7 @@ public class Database {
 		
 		try {
 			Statement query = this.connection.createStatement();
-			ResultSet results = query.executeQuery("SELECT a.*, CONCAT(c.name, \" \", c.surnames) as \"client_name\" FROM apartments a INNER JOIN clients c on a.id_client = c.id;");
+			ResultSet results = query.executeQuery("SELECT a.*, CONCAT(c.name, \" \", c.surnames) as \"client_name\", CASE WHEN (CURRENT_DATE BETWEEN r.res_start AND r.res_end) THEN \"BUSY\" ELSE \"FREE\" END as \"Status\" FROM (apartments a LEFT JOIN clients c on a.id_client = c.id) LEFT JOIN reservations r on a.id = r.id_apartment;");
 			while(results.next()) {
 				apartments.add(new Apartment(
 						results.getInt("id"),
@@ -354,7 +347,7 @@ public class Database {
 						results.getString("address"),
 						results.getInt("id_client"),
 						results.getDouble("price_night"),
-						results.getString("state"),
+						results.getString("state").equalsIgnoreCase("") || results.getString("state") == null ? results.getString("Status") : results.getString("state"),
 						results.getString("client_name")
 						));
 			}
@@ -365,6 +358,51 @@ public class Database {
 		return apartments;
 	}
 
+	public ObservableList<Apartment> getApartmentsByReservationDate(LocalDate startDate, LocalDate endDate) {
+		/*
+		 * 	SET @start = '2019-04-20';
+			SET @end = '2019-05-01';
+			SELECT a.*, r.res_start, r.res_end, @start as "Start", @end as "End" FROM apartments a left JOIN reservations r on a.id = r.id_apartment WHERE r.res_start is null OR (
+				(r.res_start NOT BETWEEN @start AND @end) AND
+			    (r.res_end NOT BETWEEN @start AND @end) AND
+			    (@start NOT BETWEEN r.res_start AND r.res_end) AND 
+			    (@end NOT BETWEEN r.res_start AND r.res_end)
+			)
+		 */
+		
+		String sd = startDate.toString();
+		String ed = endDate.toString();
+		ObservableList<Apartment> apartments = FXCollections.observableArrayList();
+		
+		try {
+			Statement query = this.connection.createStatement();
+			ResultSet results = query.executeQuery("SELECT a.* FROM apartments a LEFT JOIN reservations r on a.id = r.id_apartment WHERE r.res_start is null OR (\n" + 
+					"				(r.res_start NOT BETWEEN '"+sd+"' AND '"+ed+"') AND\n" + 
+					"			    (r.res_end NOT BETWEEN '"+sd+"' AND '"+ed+"') AND\n" + 
+					"			    ('"+sd+"' NOT BETWEEN r.res_start AND r.res_end) AND \n" + 
+					"			    ('"+ed+"' NOT BETWEEN r.res_start AND r.res_end)\n" + 
+					"			);");
+			while(results.next()) {
+				apartments.add(new Apartment(
+						results.getInt("id"),
+						results.getInt("num_rooms"),
+						results.getInt("max_capacity"),
+						results.getString("description"),
+						results.getString("address"),
+						results.getInt("id_client"),
+						results.getDouble("price_night"),
+						results.getString("state"),
+						""
+						));
+			}
+		} catch (SQLException e) {
+			uff.showAlerts("Something went wrong with the database...", "error");
+			e.printStackTrace();
+		}
+		
+		return apartments;
+	}
+	
 	public void deleteApartment(Apartment apartment) {
 		
 		String query = "DELETE FROM apartments WHERE id = " + apartment.getId() + ";";
@@ -383,19 +421,39 @@ public class Database {
 	}
 
 	public ObservableList<Reservations> getReservations(String start_date, String end_date) {
-				
+		
+		/*
+		 * 	SET @start = '2019-04-20';
+			SET @end = '2019-05-01';
+			SELECT a.*, r.res_start, r.res_end, @start as "Start", @end as "End" FROM apartments a left JOIN reservations r on a.id = r.id_apartment WHERE r.res_start is null OR (
+				(r.res_start NOT BETWEEN @start AND @end) AND
+			    (r.res_end NOT BETWEEN @start AND @end) AND
+			    (@start NOT BETWEEN r.res_start AND r.res_end) AND 
+			    (@end NOT BETWEEN r.res_start AND r.res_end)
+			)
+		 */
+		
 		ObservableList<Reservations> reservations = FXCollections.observableArrayList();
-		String queryStmt = "SELECT r.*, CONCAT(c.name, \" \", c.surnames) as \"client_name\" FROM reservations r INNER JOIN clients c on r.id_client = c.id";
+		String queryStmt = "SELECT r.*, CONCAT(c.name, \" \", c.surnames) as \"client_name\" FROM reservations r INNER JOIN clients c on r.id_client = c.id WHERE ";
 		if(!start_date.equalsIgnoreCase("") && !end_date.equalsIgnoreCase("")) {
-			queryStmt += " WHERE (res_start BETWEEN '" + start_date + "' AND '" + end_date + "') OR (res_end BETWEEN '" + start_date + "' AND '" + end_date + "');";
+			queryStmt += " (r.res_start BETWEEN '"+start_date+"' AND '"+end_date+"') OR\n" + 
+					"			    (r.res_end BETWEEN '"+start_date+"' AND '"+end_date+"') OR\n" + 
+					"			    ('"+start_date+"' BETWEEN r.res_start AND r.res_end) OR \n" + 
+					"			    ('"+end_date+"' BETWEEN r.res_start AND r.res_end) AND ";
 		}else {
 			if(!start_date.equalsIgnoreCase("")) {
-				queryStmt += " WHERE res_start >= '" + start_date + "';";
+				queryStmt += " res_start >= '" + start_date + "' AND ";
 			}
 			
 			if(!end_date.equalsIgnoreCase("")) {
-				queryStmt += " WHERE '" + end_date + "' <= res_end;";
+				queryStmt += " '" + end_date + "' <= res_end AND ";
 			}
+		}
+		
+		if(Client.getLoggedInUser().getAccess_type().equalsIgnoreCase("user")) {
+			queryStmt += " id_client = " + Client.getLoggedInUser().getId() + " ";
+		}else {
+			queryStmt += " id_client like '%'";
 		}
 		try {
 			Statement query = this.connection.createStatement();
@@ -497,6 +555,105 @@ public class Database {
 		
 		return userAdded;
 		
+	}
+
+	public boolean addApartment(Apartment apartment) {
+		
+boolean userAdded = false;
+		
+		String query = "INSERT INTO apartments (num_rooms, max_capacity, description, address, id_client, price_night) VALUES "
+				+ "("+ apartment.getNum_rooms() +","+apartment.getMax_capacity()+",'"+apartment.getDescription()+"','"+apartment.getAddress()+"',"+ apartment.getId_client() +", "+ apartment.getPrice_night() +");";
+		try {
+			Statement stmt = this.connection.createStatement();
+			int results = stmt.executeUpdate(query);
+			
+			if(results > 0) {
+				userAdded = true;
+				uff.showAlerts("Apartment has been added successfully!", "ok");
+			}else {
+				uff.showAlerts("Could not add new apartment for some reason...", "error");
+			}
+		}catch(Exception e) {
+			uff.showAlerts("Something went wrong with the database...", "error");
+			e.printStackTrace();
+		}
+		
+		return userAdded;
+		
+	}
+
+	public boolean updateApartment(Apartment old, Apartment newApartment) {
+		
+		String query = "UPDATE apartments SET ";
+		if(old.getNum_rooms() != newApartment.getNum_rooms()) { query += " num_rooms=" + newApartment.getNum_rooms() + ", "; }
+		if(old.getMax_capacity() != newApartment.getMax_capacity() ) { query += " max_capacity=" + newApartment.getMax_capacity() + ", "; }
+		if(!old.getDescription().equalsIgnoreCase(newApartment.getDescription())) { query += " description='" + newApartment.getDescription() + "', "; }
+		if(!old.getAddress().equalsIgnoreCase(newApartment.getAddress())) { query += " address='" + newApartment.getAddress() + "', "; }
+		if(old.getId_client() != newApartment.getId_client()) { query += " id_client=" + newApartment.getId_client() + ", "; }
+		if(old.getPrice_night() != newApartment.getPrice_night()) { query += " price_night=" + newApartment.getPrice_night() + ", "; }
+		if(old.getState() != newApartment.getState()) { query += " state='" + newApartment.getState() + "', "; }
+		
+		query = query.substring(0, query.length() - 2);
+		query += " WHERE id = " + old.getId();
+				
+		boolean userAdded = false;
+		
+		try {
+			Statement stmt = this.connection.createStatement();
+			int results = stmt.executeUpdate(query);
+			
+			if(results > 0) {
+				userAdded = true;
+				uff.showAlerts("Apartment has been updated successfully!", "ok");
+			}else {
+				uff.showAlerts("Could not update apartment for some reason...", "error");
+			}
+		}catch(Exception e) {
+			uff.showAlerts("Something went wrong with the database...", "error");
+			e.printStackTrace();
+		}
+		
+		return userAdded;
+		
+	}
+	
+	public Client findUserById(int id_client) {
+		Client c = null;
+		
+		try {
+			Statement query = this.connection.createStatement();
+			ResultSet results = query.executeQuery("SELECT * FROM clients WHERE id like " + id_client + ";");
+			if(results.next()) {
+				c = createClient(results);
+			}
+		} catch (SQLException e) {
+			uff.showAlerts("Something went wrong with the database...", "error");
+		}
+		
+		return c;
+	}
+
+	public boolean addReservation(Reservations r) {
+		
+		String query = "INSERT INTO reservations (id_client, id_apartment, card_type, card_number, card_expiredate, status, total, payment_day, res_start, res_end) VALUES ("
+				+ r.getId_client() + ", " + r.getId_apartment() + ", '" + r.getCard_type() + "', '"+ r.getCard_number() +"', '"+ r.getCard_expiredate() +"', '" + r.getStatus() + "', " + r.getTotal() + ", " + ((r.getPayment_day() == null) ? "NULL" : ("'" + r.getPayment_day() + "'"))  + ", '" + r.getRes_start() + "', '" + r.getRes_end() + "');";
+		boolean resAdded = false;
+		try {
+			Statement stmt = this.connection.createStatement();
+			int results = stmt.executeUpdate(query);
+			
+			if(results > 0) {
+				resAdded = true;
+				uff.showAlerts("Reservation has been added successfully!", "ok");
+			}else {
+				uff.showAlerts("Could not add reservation for some reason...", "error");
+			}
+		}catch(Exception e) {
+			uff.showAlerts("Something went wrong with the database...", "error");
+			e.printStackTrace();
+		}
+		
+		return resAdded;
 	}
 	
 }

@@ -62,8 +62,9 @@ public class ManagerController {
         assert clients != null : "fx:id=\"clients\" was not injected: check your FXML file 'Manager.fxml'.";
         assert rooms != null : "fx:id=\"rooms\" was not injected: check your FXML file 'Manager.fxml'.";
 
+        Main.managerMainScene = mainScene;
+        
         username.setText(Client.getLoggedInUser().getFullName());
-        changeScene("../view/Clients.fxml", "Clients");
         
         signOutBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
         	@Override
@@ -75,13 +76,18 @@ public class ManagerController {
         signOutBtn.setOnMouseExited(new EventHandler<MouseEvent>() {
         	@Override
 			public void handle(MouseEvent event) {
-        		uff.hoverIconColorChange(signOutBtn, "#34495e", Duration.millis(300));
+        		uff.hoverIconColorChange(signOutBtn, "#636e72", Duration.millis(300));
         	}
 		});
         
-        managerButton("clients", FontAwesomeIcon.USER, true);
-        managerButton("apartments", FontAwesomeIcon.HOME, false);
-        managerButton("reservations", FontAwesomeIcon.CALENDAR_CHECK_ALT, false);
+        if(!Client.getLoggedInUser().getAccess_type().equalsIgnoreCase("user")) {
+            changeScene("../view/Clients.fxml", "Clients");
+        	managerButton("clients", FontAwesomeIcon.USER, true);
+        }else {
+        	changeScene("../view/Apartments.fxml", "Apartments");
+        }
+        managerButton("apartments", FontAwesomeIcon.HOME, (Client.getLoggedInUser().getAccess_type().equalsIgnoreCase("user") ? true : false));
+        managerButton((Client.getLoggedInUser().getAccess_type().equalsIgnoreCase("user") ? "my reservations" : "reservations"), FontAwesomeIcon.CALENDAR_CHECK_ALT, false);
         
         
     }
@@ -108,7 +114,7 @@ public class ManagerController {
 		
 		Label button = new Label("   " + buttonText.toUpperCase());
 		FontAwesomeIconView icon = new FontAwesomeIconView(buttonIcon);
-		icon.setStyle("-fx-fill: #34495e");
+		icon.setStyle("-fx-fill: #636e72");
 		icon.setGlyphSize(16);
         button.setGraphic(icon);
         button.setPrefWidth(224);
@@ -116,7 +122,7 @@ public class ManagerController {
         button.setPadding(new Insets(5, 20, 5, 20));
         button.setTextAlignment(TextAlignment.LEFT);
         button.setFocusTraversable(false);
-        button.setStyle("-fx-text-fill: #34495e; -fx-font-size: 16px; -fx-background-color: #2c3e50; -fx-background-radius: 0");
+        button.setStyle("-fx-text-fill: #636e72; -fx-font-size: 16px; -fx-background-color: #2c3e50; -fx-background-radius: 0");
         button.setCursor(Cursor.HAND);
         button.setAccessibleHelp("");
         sideBar.getChildren().add(button);
@@ -142,8 +148,8 @@ public class ManagerController {
         	@Override
 			public void handle(MouseEvent event) {
         		if(!button.getAccessibleHelp().equalsIgnoreCase("Active")) {
-	    			uff.hoverButtonBackgroundColorChange(button, "#34495e", Duration.millis(300));
-	        		uff.hoverIconColorChange(icon, "#34495e", Duration.millis(300));
+	    			uff.hoverButtonBackgroundColorChange(button, "#636e72", Duration.millis(300));
+	        		uff.hoverIconColorChange(icon, "#636e72", Duration.millis(300));
         		}
         	}
 		});
@@ -154,8 +160,8 @@ public class ManagerController {
 			public void handle(MouseEvent event) {
 				
 				for(Label btn : managerButtons) {
-					uff.hoverButtonBackgroundColorChange(btn, "#34495e", Duration.millis(300));
-            		uff.hoverIconColorChange(((FontAwesomeIconView) btn.getGraphic()), "#34495e", Duration.millis(300));
+					uff.hoverButtonBackgroundColorChange(btn, "#636e72", Duration.millis(300));
+            		uff.hoverIconColorChange(((FontAwesomeIconView) btn.getGraphic()), "#636e72", Duration.millis(300));
             		btn.setAccessibleHelp("");
 				}
 				
@@ -172,6 +178,7 @@ public class ManagerController {
 					changeScene("../view/Apartments.fxml", "Clients");
 					break;
 				case "   reservations":
+				case "   my reservations":
 					changeScene("../view/Reservations.fxml", "Reservations");
 					break;
 				default:

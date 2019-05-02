@@ -105,7 +105,7 @@ public class ShowClientController {
         closeStageBtn.setOnMouseExited(new EventHandler<MouseEvent>() {
         	@Override
 			public void handle(MouseEvent event) {
-        		uff.hoverIconColorChange(closeStageBtn, "#34495e", Duration.millis(300));
+        		uff.hoverIconColorChange(closeStageBtn, "#636e72", Duration.millis(300));
         	}
 		});
     	

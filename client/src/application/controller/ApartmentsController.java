@@ -1,10 +1,17 @@
 package application.controller;
 
+import java.io.IOException;
+
 import application.model.Apartment;
+import application.model.Client;
+import application.model.ClientViewModel;
 import application.model.Database;
+import application.model.UsefullFunctions;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -12,10 +19,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 
 public class ApartmentsController {
 	
 	private Database db = Database.getInstance();
+	private UsefullFunctions uff = UsefullFunctions.getInstance();
+	
+	public static Apartment selected = null;
 	
 	@FXML TableView<Apartment> apartments;
 	@FXML TableColumn<Apartment, Integer> id;
@@ -27,6 +42,25 @@ public class ApartmentsController {
 	@FXML TableColumn<Apartment, Double> price_night;
 	@FXML TableColumn<Apartment, String> state;
 
+	@FXML FontAwesomeIconView plusApartment;
+
+	private void editApartment(Apartment selectedItem) {
+		selected = selectedItem;
+		AnchorPane root;
+		try {
+			root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/ShowApartment.fxml"));
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("../view/application.css").toExternalForm());
+			Stage showClient = new Stage();
+			showClient.setScene(scene);
+			showClient.initStyle(StageStyle.UNDECORATED);
+			showClient.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+			uff.showAlerts("Could not open the show client window, please re-try again later...", "error");
+		}
+	}
+	
 	@FXML
 	void initialize() {
 		
@@ -43,7 +77,16 @@ public class ApartmentsController {
 		
 		
 		ContextMenu cxm = new ContextMenu();
-		MenuItem editItem = new MenuItem("Edit");		
+		MenuItem editItem = new MenuItem("Edit");
+		editItem.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				editApartment(apartments.getSelectionModel().getSelectedItem());
+				
+			}
+		});
 		MenuItem deleteItem = new MenuItem("Delete");
 		deleteItem.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -53,8 +96,9 @@ public class ApartmentsController {
 				apartments.setItems(db.getApartments());
 			}
 		});
-		
-		cxm.getItems().addAll(editItem, deleteItem);
+		if(!Client.getLoggedInUser().getAccess_type().equalsIgnoreCase("user")) {
+			cxm.getItems().addAll(editItem, deleteItem);
+		}
 		
 		apartments.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
@@ -72,6 +116,44 @@ public class ApartmentsController {
 			}
 			
 		});
+		
+		plusApartment.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				
+				uff.hoverIconColorChange(plusApartment, "#efefef", Duration.millis(300));
+				
+			}
+		});
+		
+		plusApartment.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				
+				uff.hoverIconColorChange(plusApartment, "#636e72", Duration.millis(300));
+				
+			}
+		});
+	}
+
+	@FXML public void addApartment(MouseEvent event) {
+		
+		ApartmentsController.selected = null;
+		AnchorPane root;
+		try {
+			root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/ShowApartment.fxml"));
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("../view/application.css").toExternalForm());
+			Stage showClient = new Stage();
+			showClient.setScene(scene);
+			showClient.initStyle(StageStyle.UNDECORATED);
+			showClient.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+			uff.showAlerts("Could not open the show client window, please re-try again later...", "error");
+		}
 		
 	}
     
