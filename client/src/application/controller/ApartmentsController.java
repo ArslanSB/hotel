@@ -96,10 +96,8 @@ public class ApartmentsController {
 				apartments.setItems(db.getApartments());
 			}
 		});
-		if(!Client.getLoggedInUser().getAccess_type().equalsIgnoreCase("user")) {
-			cxm.getItems().addAll(editItem, deleteItem);
-		}
-		
+		cxm.getItems().addAll(editItem, deleteItem);
+				
 		apartments.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
 			@Override
@@ -107,7 +105,13 @@ public class ApartmentsController {
 				
 				if(event.getButton() == MouseButton.SECONDARY) {
 					if(apartments.getSelectionModel().getSelectedItem() != null) {
-						cxm.show(apartments, event.getScreenX(), event.getScreenY());
+						if(Client.getLoggedInUser().getAccess_type().equalsIgnoreCase("user")) {
+							if(db.findUserById(apartments.getSelectionModel().getSelectedItem().getId_client()).getId() == Client.getLoggedInUser().getId()) {
+								cxm.show(apartments, event.getScreenX(), event.getScreenY());
+							}
+						}else {
+							cxm.show(apartments, event.getScreenX(), event.getScreenY());
+						}
 					}
 				} else {
 					cxm.hide();

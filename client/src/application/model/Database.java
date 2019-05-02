@@ -559,7 +559,7 @@ public class Database {
 
 	public boolean addApartment(Apartment apartment) {
 		
-boolean userAdded = false;
+		boolean userAdded = false;
 		
 		String query = "INSERT INTO apartments (num_rooms, max_capacity, description, address, id_client, price_night) VALUES "
 				+ "("+ apartment.getNum_rooms() +","+apartment.getMax_capacity()+",'"+apartment.getDescription()+"','"+apartment.getAddress()+"',"+ apartment.getId_client() +", "+ apartment.getPrice_night() +");";
