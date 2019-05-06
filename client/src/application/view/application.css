@@ -1,5 +1,9 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
+.root{
+	-bg-color: rgba(44, 62, 80,.6);
+}
+
 .topBarIcons{
 	-fx-fill: #636e72;
 	-fx-cursor: hand;
@@ -18,4 +22,9 @@
 .scroll-panel,
 .scroll-panel > .viewport{
 	-fx-background-color: transparent;
+}
+
+.backgroundColor_marine{
+	-fx-background-color: -bg-color;
+	-fx-background-radius: 0;
 }

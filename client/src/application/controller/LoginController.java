@@ -1,5 +1,6 @@
 package application.controller;
 
+import java.io.File;
 import java.net.URL;
 import javafx.util.Duration;
 
@@ -21,6 +22,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Paint;
 import application.model.Database;
 import application.model.Main;
@@ -235,9 +239,23 @@ public class LoginController {
     }
     
     
-    
+    @FXML MediaView bgVideo;
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+    	
+//    	Set video as the login background
+//    	Look for good short videos
+//    	
+    	String path = new File("src/application/resources/bgvideo.mp4").getAbsolutePath();
+    	Media me = new Media(new File(path).toURI().toString());
+    	MediaPlayer md = new MediaPlayer(me);
+    	
+    	bgVideo.setMediaPlayer(md);
+    	md.setAutoPlay(true);
+    	md.setVolume(0);
+    	
+    	
+    	
     	signinForm.setTranslateY(500);
         signupForm.setTranslateY(500);
         recoverForm.setTranslateY(500);
