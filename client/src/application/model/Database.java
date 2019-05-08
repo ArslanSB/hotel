@@ -10,8 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.ArrayList;
-
 import javax.xml.bind.DatatypeConverter;
 
 import javafx.collections.FXCollections;
@@ -311,7 +309,7 @@ public class Database {
 		config.setProperty("id", "");
 		config.setProperty("expire", "");
 		
-		uff.changeScene("../view/Login.fxml", "Login");
+		uff.changeScene("/application/view/Login.fxml", "Login");
 	}
 
 	private Client createClient(ResultSet results) throws SQLException {

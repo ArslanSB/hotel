@@ -76,9 +76,9 @@ public class StageController {
         Main.dynamicScene = dynamicScene;
         Main.stageTitle = topBorderTitle;
         if(checkIfUserShouldBeLoggedIn()) {
-        	uff.changeScene("../view/Manager.fxml", "Manager");
+        	uff.changeScene("/application/view/Manager.fxml", "Manager");
         }else{
-        	uff.changeScene("../view/Login.fxml", "Login");
+        	uff.changeScene("/application/view/Login.fxml", "Login");
         }
         makeWindowDragable();
         closeStageBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {

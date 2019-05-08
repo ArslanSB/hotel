@@ -6,8 +6,6 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import com.sun.org.apache.xpath.internal.FoundIndex;
-
 import application.model.Client;
 import application.model.ClientViewModel;
 import application.model.Database;
@@ -75,9 +73,9 @@ public class ClientsController {
 				
 				AnchorPane root;
 				try {
-					root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/ShowClient.fxml"));
+					root = (AnchorPane)FXMLLoader.load(getClass().getResource("/application/view/ShowClient.fxml"));
 					Scene scene = new Scene(root);
-					scene.getStylesheets().add(getClass().getResource("../view/application.css").toExternalForm());
+					scene.getStylesheets().add(getClass().getResource("/application/view/application.css").toExternalForm());
 					Stage showClient = new Stage();
 					showClient.setScene(scene);
 					showClient.initStyle(StageStyle.UNDECORATED);

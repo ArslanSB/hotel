@@ -11,8 +11,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-
 public class Email {
 
 	private static Email _instance;

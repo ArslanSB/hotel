@@ -1,9 +1,6 @@
 package application.controller;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXPasswordField;
@@ -181,7 +178,11 @@ public class ShowClientController {
 						}
 						ClientViewModel.getSelectedClient().setEmail(emailField.getText());
 						
-						db.updateClient(ClientViewModel.getSelectedClient());
+						if(db.updateClient(ClientViewModel.getSelectedClient())) {
+							if(ClientViewModel.getSelectedClient().getId() == Client.getLoggedInUser().getId()) {
+								Client.setLoggedInUser(ClientViewModel.getSelectedClient());
+							}
+						}
 						
 					}
 

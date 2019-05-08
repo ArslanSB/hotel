@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import de.jensd.fx.glyphs.fontawesome.*?>
 
-<AnchorPane prefHeight="570.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ReservationsController">
+<AnchorPane prefHeight="570.0" prefWidth="800.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ReservationsController">
    <children>
       <VBox prefHeight="570.0" prefWidth="800.0" spacing="20.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -53,7 +53,7 @@
             <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
          </padding>
          <children>
-         	<FontAwesomeIconView glyphName="PLUS_CIRCLE" size="16" style="-fx-fill: #636e72; -fx-cursor: hand;" onMousePressed="#addReservation" fx:id="plusReservation" />
+         	<FontAwesomeIconView fx:id="plusReservation" glyphName="PLUS_CIRCLE" onMousePressed="#addReservation" size="16" style="-fx-fill: #636e72; -fx-cursor: hand;" />
          </children>
       </HBox>
    </children>

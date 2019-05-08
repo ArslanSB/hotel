@@ -1,7 +1,6 @@
 package application.controller;
 
 import java.net.URL;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -20,7 +19,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -102,7 +100,7 @@ public class ShowApartmentController {
                 						Main.stageTitle.setText("Apartments - Manager");
                 						Main.managerMainScene.setCenter(null);
                 				        try {
-                							AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/Apartments.fxml"));
+                							AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/application/view/Apartments.fxml"));
                 							Main.managerMainScene.setCenter(root);
                 				        } catch(Exception e) {
                 				        	e.printStackTrace();
@@ -117,7 +115,7 @@ public class ShowApartmentController {
                 						Main.stageTitle.setText("Apartments - Manager");
                 						Main.managerMainScene.setCenter(null);
                 				        try {
-                							AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/Apartments.fxml"));
+                							AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/application/view/Apartments.fxml"));
                 							Main.managerMainScene.setCenter(root);
                 				        } catch(Exception e) {
                 				        	e.printStackTrace();

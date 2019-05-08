@@ -109,9 +109,9 @@ public class ClientViewModel extends VBox {
 				AnchorPane root;
 				ClientViewModel.setSelectedClient(client);
 				try {
-					root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/ShowClient.fxml"));
+					root = (AnchorPane)FXMLLoader.load(getClass().getResource("/application/view/ShowClient.fxml"));
 					Scene scene = new Scene(root);
-					scene.getStylesheets().add(getClass().getResource("../view/application.css").toExternalForm());
+					scene.getStylesheets().add(getClass().getResource("/application/view/application.css").toExternalForm());
 					Stage showClient = new Stage();
 					showClient.setScene(scene);
 					showClient.initStyle(StageStyle.UNDECORATED);

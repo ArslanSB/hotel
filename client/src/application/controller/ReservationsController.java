@@ -1,7 +1,6 @@
 package application.controller;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Date;
 
 import com.jfoenix.controls.JFXDatePicker;
@@ -14,11 +13,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.DateCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -51,9 +48,9 @@ public class ReservationsController {
 	@FXML void addReservation(MouseEvent event) {
 		AnchorPane root;
 		try {
-			root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/ShowReservation.fxml"));
+			root = (AnchorPane)FXMLLoader.load(getClass().getResource("/application/view/ShowReservation.fxml"));
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("../view/application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/application/view/application.css").toExternalForm());
 			Stage showClient = new Stage();
 			showClient.setScene(scene);
 			showClient.initStyle(StageStyle.UNDECORATED);

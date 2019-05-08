@@ -5,16 +5,24 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Properties;
 
 
 public class HotelConfigProperties {
 
-	private String resourceLink = new File("./src/application/resources/config.properties").getAbsolutePath();
+	private URL resourceLink = Main.class.getResource("/application/resources/config.properties");
+	private File resourceFile = null;
 	private Properties props = null;
 	private static HotelConfigProperties _instance = null;
 	
 	private HotelConfigProperties() {
+		try {
+			resourceFile = new File(resourceLink.toURI());
+		} catch (URISyntaxException e) {
+			System.err.println("Found an error while loading properties file...");
+		}
 		props = new Properties();
 		loadProperties();
 	}
@@ -23,10 +31,9 @@ public class HotelConfigProperties {
 		
 		InputStream input = null;
 		try {
-			input = new FileInputStream(this.resourceLink);
+			input = new FileInputStream(resourceFile);
 			props.load(input);
 		} catch (Exception e) {
-			e.printStackTrace();
 			System.err.println("Found an error while loading properties file...");
 		} finally {
 			if( input != null ) {
@@ -53,7 +60,7 @@ public class HotelConfigProperties {
 		this.props.setProperty(key, value);
 		
 		try {
-			FileOutputStream save = new FileOutputStream(resourceLink);
+			FileOutputStream save = new FileOutputStream(resourceFile);
 			props.store(save, "Property " + key + " saved!!");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 
-<AnchorPane prefHeight="570.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ApartmentsController">
+<AnchorPane prefHeight="570.0" prefWidth="800.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ApartmentsController">
    <children>
-      <TableView fx:id="apartments" prefHeight="570.0" prefWidth="800.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TableView fx:id="apartments" style="-fx-border-width: 0" prefWidth="800.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0"  focusTraversable="false" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columns>
             <TableColumn fx:id="id" prefWidth="75.0" text="ID" />
             <TableColumn fx:id="num_rooms" prefWidth="75.0" text="Number of rooms" />
@@ -28,7 +28,7 @@
             <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
          </padding>
          <children>
-         	<FontAwesomeIconView glyphName="PLUS_CIRCLE" size="16" style="-fx-fill: #636e72; -fx-cursor: hand;" onMousePressed="#addApartment" fx:id="plusApartment" />
+         	<FontAwesomeIconView fx:id="plusApartment" glyphName="PLUS_CIRCLE" onMousePressed="#addApartment" size="16" style="-fx-fill: #636e72; -fx-cursor: hand;" />
          </children>
       </HBox>
    </children>

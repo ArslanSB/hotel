@@ -4,15 +4,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXButton;
-
 import application.model.Client;
 import application.model.Database;
 import application.model.Main;
 import application.model.UsefullFunctions;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
@@ -57,6 +55,9 @@ public class ManagerController {
 
 	@FXML FontAwesomeIconView signOutBtn;
 
+	@FXML MediaView bgVideo;
+	
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert clients != null : "fx:id=\"clients\" was not injected: check your FXML file 'Manager.fxml'.";
@@ -81,14 +82,13 @@ public class ManagerController {
 		});
         
         if(!Client.getLoggedInUser().getAccess_type().equalsIgnoreCase("user")) {
-            changeScene("../view/Clients.fxml", "Clients");
+            changeScene("/application/view/Clients.fxml", "Clients");
         	managerButton("clients", FontAwesomeIcon.USER, true);
         }else {
-        	changeScene("../view/Apartments.fxml", "Apartments");
+        	changeScene("/application/view/Apartments.fxml", "Apartments");
         }
         managerButton("apartments", FontAwesomeIcon.HOME, (Client.getLoggedInUser().getAccess_type().equalsIgnoreCase("user") ? true : false));
         managerButton((Client.getLoggedInUser().getAccess_type().equalsIgnoreCase("user") ? "my reservations" : "reservations"), FontAwesomeIcon.CALENDAR_CHECK_ALT, false);
-        
         
     }
 
@@ -172,14 +172,14 @@ public class ManagerController {
         		        		
         		switch (curr.getText().toLowerCase()) {
 				case "   clients":
-					changeScene("../view/Clients.fxml", "Clients");
+					changeScene("/application/view/Clients.fxml", "Clients");
 					break;
 				case "   apartments":
-					changeScene("../view/Apartments.fxml", "Clients");
+					changeScene("/application/view/Apartments.fxml", "Clients");
 					break;
 				case "   reservations":
 				case "   my reservations":
-					changeScene("../view/Reservations.fxml", "Reservations");
+					changeScene("/application/view/Reservations.fxml", "Reservations");
 					break;
 				default:
 					break;

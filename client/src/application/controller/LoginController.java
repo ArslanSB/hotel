@@ -18,7 +18,6 @@ import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -72,7 +71,7 @@ public class LoginController {
     	boolean loginTrue = db.checkLogin(username, password, siremember.isSelected());
     	if(loginTrue) {
     		System.out.println("User has been loged in successfully....");
-    		uff.changeScene("../view/Manager.fxml", "Manager");
+    		uff.changeScene("/application/view/Manager.fxml", "Manager");
     	}else {
     		System.out.println("Please check your credencials....");
     	}
@@ -240,20 +239,28 @@ public class LoginController {
     
     
     @FXML MediaView bgVideo;
+    String path = new File("/application/resources/bgvideo.mp4").getAbsolutePath();
+	Media me = new Media(new File(path).toURI().toString());
+	MediaPlayer md = new MediaPlayer(me);
+	
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
     	
 //    	Set video as the login background
 //    	Look for good short videos
 //    	
-    	String path = new File("src/application/resources/bgvideo.mp4").getAbsolutePath();
-    	Media me = new Media(new File(path).toURI().toString());
-    	MediaPlayer md = new MediaPlayer(me);
+    	md.setOnEndOfMedia(new Runnable() {
+			
+			@Override
+			public void run() {
+				md.seek(Duration.ZERO);
+				md.play();
+			}
+		});
     	
     	bgVideo.setMediaPlayer(md);
     	md.setAutoPlay(true);
     	md.setVolume(0);
-    	
     	
     	
     	signinForm.setTranslateY(500);

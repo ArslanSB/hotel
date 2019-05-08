@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import application.model.Apartment;
 import application.model.Client;
-import application.model.ClientViewModel;
 import application.model.Database;
 import application.model.UsefullFunctions;
 import javafx.event.ActionEvent;
@@ -48,9 +47,9 @@ public class ApartmentsController {
 		selected = selectedItem;
 		AnchorPane root;
 		try {
-			root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/ShowApartment.fxml"));
+			root = (AnchorPane)FXMLLoader.load(getClass().getResource("/application/view/ShowApartment.fxml"));
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("../view/application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/application/view/application.css").toExternalForm());
 			Stage showClient = new Stage();
 			showClient.setScene(scene);
 			showClient.initStyle(StageStyle.UNDECORATED);
@@ -147,9 +146,9 @@ public class ApartmentsController {
 		ApartmentsController.selected = null;
 		AnchorPane root;
 		try {
-			root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/ShowApartment.fxml"));
+			root = (AnchorPane)FXMLLoader.load(getClass().getResource("/application/view/ShowApartment.fxml"));
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("../view/application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/application/view/application.css").toExternalForm());
 			Stage showClient = new Stage();
 			showClient.setScene(scene);
 			showClient.initStyle(StageStyle.UNDECORATED);
