@@ -1,5 +1,6 @@
 package application.controller;
 
+import java.io.File;
 import java.net.URL;
 import javafx.util.Duration;
 
@@ -238,8 +239,8 @@ public class LoginController {
     
     
     @FXML MediaView bgVideo;
-    String path = Main.class.getResource("/application/resources/bgvideo.mp4").toExternalForm();
-	Media me = new Media(path);
+    String path = new File("resources/bgvideo.mp4").getAbsolutePath();
+	Media me = new Media(new File(path).toURI().toString());
 	MediaPlayer md = new MediaPlayer(me);
 	
     @FXML // This method is called by the FXMLLoader when initialization is complete
